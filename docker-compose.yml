@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  postgres:
+    build:
+      context: .
+      dockerfile: Dockerfile.postgres
+    container_name: moutsti-postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: moutsti_db
+      POSTGRES_USER: moutsti_user
+      POSTGRES_PASSWORD: moutsti_password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - moutsti-network
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  moutsti-network:
+    driver: bridge

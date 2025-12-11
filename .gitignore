@@ -416,3 +416,5 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+/createContext.bat
+/MoutsTI.API/appsettings.Development.json

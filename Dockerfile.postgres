@@ -1,0 +1,16 @@
+FROM postgres:16-alpine
+
+# Variáveis de ambiente para configuração do PostgreSQL
+ENV POSTGRES_DB=moutsti_db
+ENV POSTGRES_USER=moutsti_user
+ENV POSTGRES_PASSWORD=moutsti_password
+
+# Porta padrão do PostgreSQL
+EXPOSE 5432
+
+# Volume para persistência de dados
+VOLUME ["/var/lib/postgresql/data"]
+
+# Configurações adicionais (opcional)
+# Copia scripts de inicialização se necessário
+# COPY ./init-scripts/ /docker-entrypoint-initdb.d/
