@@ -1,1 +1,12 @@
-﻿C:\repos\MoutsTI-Desafio\MoutsTI.Application\Initializer.cs
+﻿C:\repos\MoutsTI-Desafio\MoutsTI.Tests\Domain\Entities\EmployeeModelTests.cs
+C:\repos\MoutsTI-Desafio\MoutsTI.Tests\Domain\Entities\EmployeePhoneModelTests.cs
+C:\repos\MoutsTI-Desafio\MoutsTI.Tests\Domain\Entities\EmployeeRoleModelTests.cs
+C:\repos\MoutsTI-Desafio\MoutsTI.Tests\Domain\Services\AuthServiceTests.cs
+C:\repos\MoutsTI-Desafio\MoutsTI.Tests\Domain\Services\EmployeeRoleServiceTests.cs
+C:\repos\MoutsTI-Desafio\MoutsTI.Tests\Domain\Services\EmployeeServiceTests.cs
+C:\Users\rodri\.nuget\packages\microsoft.net.test.sdk\17.8.0\build\netcoreapp3.1\Microsoft.NET.Test.Sdk.Program.cs
+C:\Users\rodri\.nuget\packages\microsoft.testplatform.testhost\17.8.0\build\netcoreapp3.1\x64\testhost.exe
+C:\Users\rodri\.nuget\packages\microsoft.testplatform.testhost\17.8.0\build\netcoreapp3.1\x64\testhost.dll
+C:\Users\rodri\.nuget\packages\xunit.runner.visualstudio\2.5.3\build\net6.0\xunit.runner.visualstudio.dotnetcore.testadapter.dll
+C:\Users\rodri\.nuget\packages\xunit.runner.visualstudio\2.5.3\build\net6.0\xunit.runner.reporters.netcoreapp10.dll
+C:\Users\rodri\.nuget\packages\xunit.runner.visualstudio\2.5.3\build\net6.0\xunit.runner.utility.netcoreapp10.dll

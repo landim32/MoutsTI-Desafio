@@ -12,9 +12,9 @@
   <HasBeginStepCommandLineTruststorePassword>false</HasBeginStepCommandLineTruststorePassword>
   <SonarQubeHostUrl>https://sonarcloud.io</SonarQubeHostUrl>
   <SonarQubeVersion>8.0.0.77381</SonarQubeVersion>
-  <SonarProjectKey>MoutsTI</SonarProjectKey>
+  <SonarProjectKey>MoutsTI-Desafio</SonarProjectKey>
   <SonarProjectVersion>1.0.0</SonarProjectVersion>
-  <SonarProjectName>MoutsTI - Employee Management System</SonarProjectName>
+  <SonarProjectName>MoutsTI-Desafio</SonarProjectName>
   <AdditionalConfig>
     <ConfigSetting Id="BuildUri" />
     <ConfigSetting Id="TfsUri" />

@@ -4,9 +4,9 @@
 # - SonarQube server rodando (local ou remoto)
 
 param(
-    [string]$SonarUrl = "https://sonarcloud.io",
-    [string]$SonarToken = "8a5afa0b227123427cbeb29ce22814d7705a7606",
-    [string]$SonarOrganization = "landim32",
+    [string]$SonarUrl = "http://localhost:9000",
+    [string]$SonarToken = "",
+    [string]$SonarOrganization = "",
     [string]$ProjectKey = "MoutsTI-Desafio",
     [string]$ProjectName = "MoutsTI-Desafio",
     [string]$ProjectVersion = "1.0.0"

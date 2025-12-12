@@ -13,4 +13,3 @@ C:\repos\MoutsTI-Desafio\MoutsTI.API\.gitignore
 C:\repos\MoutsTI-Desafio\MoutsTI.API\logs\moutsti-20251212.log
 C:\repos\MoutsTI-Desafio\MoutsTI.API\MoutsTI.API.http
 C:\repos\MoutsTI-Desafio\MoutsTI.API\Properties\launchSettings.json
-C:\repos\MoutsTI-Desafio\MoutsTI.API\obj\Release\net8.0\apphost.exe
