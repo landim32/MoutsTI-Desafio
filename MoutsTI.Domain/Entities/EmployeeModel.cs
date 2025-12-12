@@ -258,14 +258,11 @@ namespace MoutsTI.Domain.Entities
 
         private static void ValidatePassword(string password)
         {
-            if (string.IsNullOrWhiteSpace(password))
-                throw new ArgumentException("Password cannot be empty.", nameof(password));
+            //if (string.IsNullOrWhiteSpace(password))
+            //    throw new ArgumentException("Password cannot be empty.", nameof(password));
 
-            if (password.Length > 520)
+            if (password?.Length > 520)
                 throw new ArgumentException("Password cannot exceed 520 characters.", nameof(password));
-
-            // Nota: A senha deve chegar aqui já criptografada/hasheada
-            // A validação de força de senha deve ser feita antes da criptografia
         }
 
         private static void ValidateBirthday(DateTime birthday)
@@ -282,8 +279,9 @@ namespace MoutsTI.Domain.Entities
             if (age > 120)
                 throw new ArgumentException("Birthday indicates an age greater than 120 years.", nameof(birthday));
 
-            if (age < 14)
-                throw new ArgumentException("Employee must be at least 14 years old.", nameof(birthday));
+            // REGRA DE NEGÓCIO: Funcionário não pode ser menor de idade
+            if (age < 18)
+                throw new ArgumentException("Employee cannot be underage. Must be at least 18 years old.", nameof(birthday));
         }
 
         private static void ValidateRoleId(long roleId)

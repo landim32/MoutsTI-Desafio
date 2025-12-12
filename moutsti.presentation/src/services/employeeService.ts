@@ -8,7 +8,7 @@ export const employeeService = {
     return response.data;
   },
 
-  async getById(id: string): Promise<Employee> {
+  async getById(id: number): Promise<Employee> {
     const response = await axiosInstance.get<Employee>(API_CONFIG.ENDPOINTS.EMPLOYEES.BY_ID(id));
     return response.data;
   },
@@ -18,15 +18,19 @@ export const employeeService = {
     return response.data;
   },
 
-  async update(id: string, data: UpdateEmployeeDTO): Promise<Employee> {
+  async update(id: number, data: UpdateEmployeeDTO): Promise<Employee> {
+    console.log('Updating employee with ID:', id, 'Data:', data);
     const response = await axiosInstance.put<Employee>(
       API_CONFIG.ENDPOINTS.EMPLOYEES.BY_ID(id),
-      data
+      {
+        ...data,
+        employeeId: id, // Ensure employeeId is included in the payload
+      }
     );
     return response.data;
   },
 
-  async delete(id: string): Promise<void> {
+  async delete(id: number): Promise<void> {
     await axiosInstance.delete(API_CONFIG.ENDPOINTS.EMPLOYEES.BY_ID(id));
   },
 };

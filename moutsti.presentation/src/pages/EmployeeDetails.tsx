@@ -30,11 +30,11 @@ export default function EmployeeDetails() {
 
   useEffect(() => {
     if (id) {
-      loadEmployee(id);
+      loadEmployee(Number(id));
     }
   }, [id]);
 
-  const loadEmployee = async (employeeId: string) => {
+  const loadEmployee = async (employeeId: number) => {
     setIsLoading(true);
     try {
       const data = await employeeService.getById(employeeId);
@@ -129,8 +129,8 @@ export default function EmployeeDetails() {
         <h2 className="text-lg font-semibold mb-4">Informações Pessoais</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <InfoCard icon={Mail} label="Email" value={employee.email} />
-          <InfoCard icon={FileText} label="CPF" value={employee.cpf} />
-          <InfoCard icon={Calendar} label="Data de Nascimento" value={formatDate(employee.birthDate)} />
+          <InfoCard icon={FileText} label="CPF" value={employee.docNumber} />
+          <InfoCard icon={Calendar} label="Data de Nascimento" value={formatDate(employee.birthday)} />
           <InfoCard icon={Briefcase} label="Cargo" value={employee.role?.name} />
           <InfoCard icon={User} label="Gerente" value={employee.manager?.fullName} />
           {/*<InfoCard icon={Clock} label="Criado em" value={formatDate(employee.createdAt)} />*/}

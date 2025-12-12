@@ -63,12 +63,16 @@ const employeeSchema = z.object({
   firstName: z.string().min(1, 'Nome é obrigatório').max(50, 'Nome muito longo'),
   lastName: z.string().min(1, 'Sobrenome é obrigatório').max(50, 'Sobrenome muito longo'),
   email: z.string().min(1, 'Email é obrigatório').email('Email inválido'),
-  cpf: z.string().optional().refine((val) => !val || isValidCPF(val), 'CPF inválido'),
+  docNumber: z.string().optional().refine((val) => !val || isValidCPF(val), 'CPF inválido'),
   birthDate: z.string().optional(),
-  roleId: z.string().min(1, 'Cargo é obrigatório'),
-  managerId: z.string().optional(),
+  roleId: z.number().min(1, 'Cargo é obrigatório'),
+  managerId: z.number().optional(),
   phones: z.array(phoneSchema),
-  isActive: z.boolean(),
+  password: z.string().min(6, 'Senha deve ter no mínimo 6 caracteres'),
+  confirmPassword: z.string().min(1, 'Confirmação de senha é obrigatória')
+}).refine((data) => data.password === data.confirmPassword, {
+  message: 'As senhas não coincidem',
+  path: ['confirmPassword'],
 });
 
 type EmployeeFormData = z.infer<typeof employeeSchema>;
@@ -81,7 +85,7 @@ export default function EmployeeForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [roles, setRoles] = useState<EmployeeRole[]>([]);
-  const [managers, setManagers] = useState<{ id: string; name: string }[]>([]);
+  const [managers, setManagers] = useState<{ id: number; name: string }[]>([]);
 
   const {
     register,
@@ -97,11 +101,13 @@ export default function EmployeeForm() {
       firstName: '',
       lastName: '',
       email: '',
-      cpf: '',
+      docNumber: '',
       birthDate: '',
-      roleId: '',
-      managerId: '',
-      phones: []
+      roleId: 0,
+      managerId: 0,
+      phones: [],
+      password: '',
+      confirmPassword: ''
     },
   });
 
@@ -122,24 +128,28 @@ export default function EmployeeForm() {
         employeeService.getAll(),
       ]);
 
+
+      //rolesData.map(role => {console.log('Loaded role:', role); });
       setRoles(rolesData);
       setManagers(
         employeesData
-          .filter((e) => e.employeeId !== id)
+          .filter((e) => e.employeeId.toString() !== id)
           .map((e) => ({ id: e.employeeId, name: e.fullName }))
       );
 
       if (id) {
-        const employee = await employeeService.getById(id);
+        const employee = await employeeService.getById(Number(id));
         reset({
           firstName: employee.firstName || '',
           lastName: employee.lastName || '',
           email: employee.email,
-          cpf: employee.cpf || '',
-          birthDate: employee.birthDate?.split('T')[0] || '',
+          docNumber: employee.docNumber || '',
+          birthDate: employee.birthday?.split('T')[0] || '',
           roleId: employee.roleId,
-          managerId: employee.managerId || '',
-          phones: (employee.phones || []).map(phone => ({ number: phone }))
+          managerId: employee.managerId || 0,
+          phones: (employee.phones || []).map(phone => ({ number: phone })),
+          password: '',
+          confirmPassword: ''
         });
       }
     } catch (error) {
@@ -157,15 +167,16 @@ export default function EmployeeForm() {
         firstName: data.firstName,
         lastName: data.lastName,
         email: data.email,
-        cpf: data.cpf || undefined,
-        birthDate: data.birthDate || undefined,
+        docNumber: data.docNumber || undefined,
+        birthday: data.birthDate || undefined,
         roleId: data.roleId,
         managerId: data.managerId || undefined,
         phones: data.phones.map(phone => phone.number),
+        password: data.password,
       };
 
       if (isEditing) {
-        await employeeService.update(id!, { ...payload });
+        await employeeService.update(Number(id)!, { ...payload });
         toast.success('Funcionário atualizado com sucesso');
       } else {
         await employeeService.create(payload);
@@ -190,7 +201,7 @@ export default function EmployeeForm() {
 
   const handleCPFChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const formatted = formatCPF(e.target.value);
-    setValue('cpf', formatted);
+    setValue('docNumber', formatted);
   };
 
   if (isLoading) {
@@ -277,13 +288,13 @@ export default function EmployeeForm() {
               <Label htmlFor="cpf">CPF</Label>
               <Input
                 id="cpf"
-                {...register('cpf')}
+                {...register('docNumber')}
                 onChange={handleCPFChange}
                 placeholder="000.000.000-00"
-                className={errors.cpf ? 'border-destructive' : ''}
+                className={errors.docNumber ? 'border-destructive' : ''}
               />
-              {errors.cpf && (
-                <p className="text-sm text-destructive">{errors.cpf.message}</p>
+              {errors.docNumber && (
+                <p className="text-sm text-destructive">{errors.docNumber.message}</p>
               )}
             </div>
 
@@ -301,17 +312,45 @@ export default function EmployeeForm() {
             </div>
 
             <div className="space-y-2">
+              <Label htmlFor="password">Senha *</Label>
+              <Input
+                id="password"
+                type="password"
+                {...register('password')}
+                placeholder="Mínimo 6 caracteres"
+                className={errors.password ? 'border-destructive' : ''}
+              />
+              {errors.password && (
+                <p className="text-sm text-destructive">{errors.password.message}</p>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="confirmPassword">Confirmar Senha *</Label>
+              <Input
+                id="confirmPassword"
+                type="password"
+                {...register('confirmPassword')}
+                placeholder="Repita a senha"
+                className={errors.confirmPassword ? 'border-destructive' : ''}
+              />
+              {errors.confirmPassword && (
+                <p className="text-sm text-destructive">{errors.confirmPassword.message}</p>
+              )}
+            </div>
+
+            <div className="space-y-2">
               <Label>Cargo *</Label>
               <Select
-                value={watch('roleId')}
-                onValueChange={(value) => setValue('roleId', value)}
+                value={watch('roleId').toString()}
+                onValueChange={(value) => setValue('roleId', Number(value)) }
               >
                 <SelectTrigger className={errors.roleId ? 'border-destructive' : ''}>
                   <SelectValue placeholder="Selecione um cargo" />
                 </SelectTrigger>
                 <SelectContent>
                   {roles.map((role) => (
-                    <SelectItem key={role.roleId} value={role.roleId}>
+                    <SelectItem key={role.roleId} value={role.roleId.toString()}>
                       {role.name}
                     </SelectItem>
                   ))}
@@ -325,8 +364,8 @@ export default function EmployeeForm() {
             <div className="space-y-2">
               <Label>Gerente</Label>
               <Select
-                value={watch('managerId') || ''}
-                onValueChange={(value) => setValue('managerId', value === 'none' ? '' : value)}
+                value={watch('managerId')?.toString() || ''}
+                onValueChange={(value) => setValue('managerId', value === 'none' ? undefined : Number(value))}
               >
                 <SelectTrigger>
                   <SelectValue placeholder="Selecione um gerente (opcional)" />
@@ -334,7 +373,7 @@ export default function EmployeeForm() {
                 <SelectContent>
                   <SelectItem value="none">Nenhum</SelectItem>
                   {managers.map((manager) => (
-                    <SelectItem key={manager.id} value={manager.id}>
+                    <SelectItem key={manager.id} value={manager.id.toString()}>
                       {manager.name}
                     </SelectItem>
                   ))}

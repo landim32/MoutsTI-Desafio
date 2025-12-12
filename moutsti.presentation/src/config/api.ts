@@ -6,11 +6,11 @@ export const API_CONFIG = {
     },
     EMPLOYEES: {
       BASE: '/Employee',
-      BY_ID: (id: string) => `/Employee/${id}`,
+      BY_ID: (id: number) => `/Employee/${id}`,
     },
     ROLES: {
       BASE: '/EmployeeRole',
-      BY_ID: (id: string) => `/EmployeeRole/${id}`,
+      BY_ID: (id: number) => `/EmployeeRole/${id}`,
     },
   },
 };

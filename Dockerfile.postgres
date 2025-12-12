@@ -5,12 +5,13 @@ ENV POSTGRES_DB=moutsti_db
 ENV POSTGRES_USER=moutsti_user
 ENV POSTGRES_PASSWORD=moutsti_password
 
+# Copiar script SQL de inicialização
+# Os arquivos na pasta /docker-entrypoint-initdb.d/ são executados automaticamente
+# na primeira inicialização do container (quando o banco está vazio)
+COPY Mouts-Desafio.sql /docker-entrypoint-initdb.d/01-init.sql
+
 # Porta padrão do PostgreSQL
 EXPOSE 5432
 
 # Volume para persistência de dados
 VOLUME ["/var/lib/postgresql/data"]
-
-# Configurações adicionais (opcional)
-# Copia scripts de inicialização se necessário
-# COPY ./init-scripts/ /docker-entrypoint-initdb.d/

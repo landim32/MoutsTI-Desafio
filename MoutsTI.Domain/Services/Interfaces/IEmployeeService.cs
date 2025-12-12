@@ -6,8 +6,8 @@ namespace MoutsTI.Domain.Services.Interfaces
     {
         IList<EmployeeDto> ListAll();
         EmployeeDto? GetById(long employeeId);
-        long Add(EmployeeDto employee);
-        void Update(EmployeeDto employee);
+        long Add(EmployeeDto employee, EmployeeDto currentEmployee);
+        void Update(EmployeeDto employee, EmployeeDto currentEmployee);
         void Delete(long employeeId);
     }
 }

@@ -5,6 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.postgres
+    pull_policy: build  # Sempre rebuild imagens locais
     container_name: moutsti-postgres
     restart: unless-stopped
     ports:
@@ -15,6 +16,31 @@ services:
       POSTGRES_PASSWORD: moutsti_password
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - moutsti-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U moutsti_user -d moutsti_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    pull_policy: build  # Sempre rebuild imagens locais
+    container_name: moutsti-api
+    restart: unless-stopped
+    ports:
+      - "5000:8080"
+      - "5001:8081"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+      - ConnectionStrings__MoutsTIContext=Host=postgres;Port=5432;Database=moutsti_db;Username=moutsti_user;Password=moutsti_password
+    depends_on:
+      postgres:
+        condition: service_healthy
     networks:
       - moutsti-network
 

@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using MoutsTI.Domain.Services.Interfaces;
 using MoutsTI.Dtos;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace MoutsTI.API.Controllers
 {
@@ -83,10 +85,12 @@ namespace MoutsTI.API.Controllers
         /// </summary>
         /// <param name="employee">Dados do funcionário</param>
         /// <returns>ID do funcionário criado</returns>
-        //[Authorize]
+        [Authorize]
         [HttpPost]
         [ProducesResponseType(typeof(object), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public IActionResult Create([FromBody] EmployeeDto employee)
         {
@@ -97,12 +101,23 @@ namespace MoutsTI.API.Controllers
 
             try
             {
-                var employeeId = _employeeService.Add(employee);
+                var currentEmployee = GetCurrentEmployee();
+                if (currentEmployee == null)
+                {
+                    return Unauthorized(new { message = "Unable to identify current user." });
+                }
+
+                var employeeId = _employeeService.Add(employee, currentEmployee);
 
                 return CreatedAtAction(
                     nameof(GetById),
                     new { id = employeeId },
                     new { employeeId, message = "Employee created successfully." });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                _logger.LogWarning(ex, "Authorization error while creating employee");
+                return StatusCode(StatusCodes.Status403Forbidden, new { message = ex.Message });
             }
             catch (InvalidOperationException ex)
             {
@@ -123,10 +138,12 @@ namespace MoutsTI.API.Controllers
         /// <param name="id">ID do funcionário</param>
         /// <param name="employee">Dados atualizados do funcionário</param>
         /// <returns>Resultado da operação</returns>
-        //[Authorize]
+        [Authorize]
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public IActionResult Update(long id, [FromBody] EmployeeDto employee)
@@ -143,8 +160,19 @@ namespace MoutsTI.API.Controllers
 
             try
             {
-                _employeeService.Update(employee);
+                var currentEmployee = GetCurrentEmployee();
+                if (currentEmployee == null)
+                {
+                    return Unauthorized(new { message = "Unable to identify current user." });
+                }
+
+                _employeeService.Update(employee, currentEmployee);
                 return NoContent();
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                _logger.LogWarning(ex, "Authorization error while updating employee: {Id}", id);
+                return StatusCode(StatusCodes.Status403Forbidden, new { message = ex.Message });
             }
             catch (InvalidOperationException ex) when (ex.Message.Contains("not found"))
             {
@@ -202,6 +230,40 @@ namespace MoutsTI.API.Controllers
                 _logger.LogError(ex, "Error deleting employee with ID: {Id}", id);
                 return StatusCode(StatusCodes.Status500InternalServerError,
                     new { message = "An error occurred while deleting the employee." });
+            }
+        }
+
+        /// <summary>
+        /// Obtém o funcionário atual autenticado a partir do token JWT
+        /// </summary>
+        /// <returns>EmployeeDto do usuário atual ou null</returns>
+        private EmployeeDto? GetCurrentEmployee()
+        {
+            try
+            {
+                // Extrai as claims do token JWT
+                var employeeIdClaim = User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value;
+                var emailClaim = User.FindFirst(JwtRegisteredClaimNames.Email)?.Value;
+                var firstNameClaim = User.FindFirst(JwtRegisteredClaimNames.GivenName)?.Value;
+                var lastNameClaim = User.FindFirst(JwtRegisteredClaimNames.FamilyName)?.Value;
+                var roleIdClaim = User.FindFirst("RoleId")?.Value;
+
+                if (string.IsNullOrEmpty(employeeIdClaim) || 
+                    string.IsNullOrEmpty(emailClaim) || 
+                    string.IsNullOrEmpty(roleIdClaim))
+                {
+                    return null;
+                }
+
+                // Busca o funcionário completo no serviço para ter acesso aos dados atualizados
+                var currentEmployee = _employeeService.GetById(long.Parse(employeeIdClaim));
+                
+                return currentEmployee;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error extracting current employee from token");
+                return null;
             }
         }
     }

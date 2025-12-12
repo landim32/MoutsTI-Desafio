@@ -18,6 +18,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - Docker", "1 - Docker", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 	ProjectSection(SolutionItems) = preProject
 		docker-compose.yml = docker-compose.yml
+		Dockerfile = Dockerfile
 		Dockerfile.postgres = Dockerfile.postgres
 	EndProjectSection
 EndProject
@@ -27,16 +28,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3 - Frontend", "3 - Fronten
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "moutti.presentation", "moutsti.presentation\moutti.presentation.esproj", "{5EB7940C-9F79-41E0-9545-5F63BEBF4C2F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4 - Scripts", "4 - Scripts", "{9A75C886-500E-4040-AF5C-1509CAB128D6}"
-	ProjectSection(SolutionItems) = preProject
-		createContext.bat = createContext.bat
-	EndProjectSection
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4 - Tests", "4 - Tests", "{9A75C886-500E-4040-AF5C-1509CAB128D6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5 - Extra Files", "5 - Extra Files", "{F73338F1-533D-4CC8-9B75-BB25583BAF83}"
 	ProjectSection(SolutionItems) = preProject
-		loveable-prompt.txt = loveable-prompt.txt
+		createContext.bat = createContext.bat
+		MoutsTI-Desafio.sql = MoutsTI-Desafio.sql
 		Net 8 - Teste Técnico.pdf = Net 8 - Teste Técnico.pdf
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoutsTI.Tests", "MoutsTI.Tests\MoutsTI.Tests.csproj", "{F934D8C5-3D9E-405D-909B-AE82CC3EF485}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -74,6 +75,10 @@ Global
 		{5EB7940C-9F79-41E0-9545-5F63BEBF4C2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5EB7940C-9F79-41E0-9545-5F63BEBF4C2F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5EB7940C-9F79-41E0-9545-5F63BEBF4C2F}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{F934D8C5-3D9E-405D-909B-AE82CC3EF485}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F934D8C5-3D9E-405D-909B-AE82CC3EF485}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F934D8C5-3D9E-405D-909B-AE82CC3EF485}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F934D8C5-3D9E-405D-909B-AE82CC3EF485}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -86,6 +91,7 @@ Global
 		{4AC5DA2A-6AEF-4E70-804C-786FC7367A71} = {A6E7F7FB-9229-4716-B60B-B52451A5493A}
 		{D0881DE6-B2D6-4E83-A69D-BC2D2DC69826} = {A6E7F7FB-9229-4716-B60B-B52451A5493A}
 		{5EB7940C-9F79-41E0-9545-5F63BEBF4C2F} = {2B6066E8-CFC8-4768-A138-8B981D7E3E3A}
+		{F934D8C5-3D9E-405D-909B-AE82CC3EF485} = {9A75C886-500E-4040-AF5C-1509CAB128D6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CFC11892-EF77-4A94-915A-E73B1472E5E1}

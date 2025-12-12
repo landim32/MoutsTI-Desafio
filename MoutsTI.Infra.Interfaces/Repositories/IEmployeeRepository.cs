@@ -3,10 +3,10 @@
     public interface IEmployeeRepository<TModel>
     {
         IEnumerable<TModel> ListAll();
-        TModel? GetById(long resumeId);
-        long Add(TModel resume);
-        void Update(TModel resume);
-        void Delete(long resumeId);
+        TModel? GetById(long employeeId);
+        long Add(TModel employee);
+        void Update(TModel employee);
+        void Delete(long employeeId);
         Task<TModel?> GetByEmailAsync(string email);
     }
 }

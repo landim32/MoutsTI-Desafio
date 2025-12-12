@@ -12,6 +12,10 @@ namespace MoutsTI.Infra.Mapping.Profiles
         {
             // IEmployeeModel -> Employee
             CreateMap<IEmployeeModel, Employee>()
+                .ForMember(dest => dest.Birthday, opt => opt.MapFrom(src => 
+                    src.Birthday.Kind == DateTimeKind.Unspecified 
+                        ? DateTime.SpecifyKind(src.Birthday, DateTimeKind.Utc)
+                        : src.Birthday.ToUniversalTime()))
                 .ForMember(dest => dest.EmployeePhones, opt => opt.MapFrom(src => src.Phones))
                 .ForMember(dest => dest.InverseManager, opt => opt.Ignore())
                 .ForMember(dest => dest.Manager, opt => opt.Ignore())

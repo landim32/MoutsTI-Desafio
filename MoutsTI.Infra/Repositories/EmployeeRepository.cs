@@ -27,20 +27,6 @@ namespace MoutsTI.Infra.Repositories
             _context.Employees.Add(entity);
             _context.SaveChanges();
 
-            /*
-            // Adiciona os telefones com o EmployeeId gerado
-            if (employee.Phones != null && employee.Phones.Any())
-            {
-                var phones = _mapper.Map<IEnumerable<EmployeePhone>>(employee.Phones);
-                foreach (var phone in phones)
-                {
-                    phone.EmployeeId = entity.EmployeeId;
-                    _context.EmployeePhones.Add(phone);
-                }
-                _context.SaveChanges();
-            }
-            */
-
             return entity.EmployeeId;
         }
 
@@ -92,7 +78,16 @@ namespace MoutsTI.Infra.Repositories
             if (existingEntity == null)
                 throw new InvalidOperationException($"Employee with ID {employee.EmployeeId} not found.");
 
+            // Armazena a senha anterior antes do mapeamento
+            var previousPassword = existingEntity.Password;
+
             _mapper.Map(employee, existingEntity);
+
+            // Se a nova senha estiver vazia, mantém a senha anterior
+            if (string.IsNullOrWhiteSpace(employee.Password))
+            {
+                existingEntity.Password = previousPassword;
+            }
 
             _context.Employees.Update(existingEntity);
             _context.SaveChanges();

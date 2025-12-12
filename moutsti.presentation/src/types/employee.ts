@@ -1,5 +1,5 @@
 export interface EmployeeRole {
-  roleId: string;
+  roleId: number;
   name: string;
 }
 
@@ -12,16 +12,16 @@ export interface Manager {
 }
 
 export interface Employee {
-  employeeId: string;
+  employeeId: number;
   firstName: string;
   lastName: string;
   fullName: string;
   email: string;
-  cpf?: string;
-  birthDate?: string;
-  roleId: string;
+  docNumber?: string;
+  birthday?: string;
+  roleId: number;
   role: EmployeeRole;
-  managerId?: string;
+  managerId?: number;
   manager?: Manager;
   phones: string[];
 }
@@ -30,10 +30,11 @@ export interface CreateEmployeeDTO {
   firstName: string;
   lastName: string;
   email: string;
-  cpf?: string;
-  birthDate?: string;
-  roleId: string;
-  managerId?: string;
+  password: string;
+  docNumber?: string;
+  birthday?: string;
+  roleId: number;
+  managerId?: number;
   phones: string[];
 }
 
