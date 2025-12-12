@@ -1,0 +1,12 @@
+﻿C:\repos\MoutsTI-Desafio\MoutsTI.Domain\Entities\EmployeeModel.cs
+C:\repos\MoutsTI-Desafio\MoutsTI.Domain\Entities\EmployeePhoneModel.cs
+C:\repos\MoutsTI-Desafio\MoutsTI.Domain\Entities\EmployeeRoleModel.cs
+C:\repos\MoutsTI-Desafio\MoutsTI.Domain\Entities\Interfaces\IEmployeeModel.cs
+C:\repos\MoutsTI-Desafio\MoutsTI.Domain\Entities\Interfaces\IEmployeePhoneModel.cs
+C:\repos\MoutsTI-Desafio\MoutsTI.Domain\Entities\Interfaces\IEmployeeRoleModel.cs
+C:\repos\MoutsTI-Desafio\MoutsTI.Domain\Services\AuthService.cs
+C:\repos\MoutsTI-Desafio\MoutsTI.Domain\Services\EmployeeRoleService.cs
+C:\repos\MoutsTI-Desafio\MoutsTI.Domain\Services\EmployeeService.cs
+C:\repos\MoutsTI-Desafio\MoutsTI.Domain\Services\Interfaces\IAuthService.cs
+C:\repos\MoutsTI-Desafio\MoutsTI.Domain\Services\Interfaces\IEmployeeRoleService.cs
+C:\repos\MoutsTI-Desafio\MoutsTI.Domain\Services\Interfaces\IEmployeeService.cs

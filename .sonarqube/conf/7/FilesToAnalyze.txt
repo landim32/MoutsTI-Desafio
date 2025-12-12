@@ -1,0 +1,16 @@
+﻿C:\repos\MoutsTI-Desafio\MoutsTI.API\Controllers\AuthController.cs
+C:\repos\MoutsTI-Desafio\MoutsTI.API\Controllers\EmployeeController.cs
+C:\repos\MoutsTI-Desafio\MoutsTI.API\Controllers\EmployeeRoleController.cs
+C:\repos\MoutsTI-Desafio\MoutsTI.API\Program.cs
+C:\repos\MoutsTI-Desafio\MoutsTI.API\obj\Release\net8.0\MoutsTI.API.GlobalUsings.g.cs
+C:\repos\MoutsTI-Desafio\MoutsTI.API\obj\Release\net8.0\.NETCoreApp,Version=v8.0.AssemblyAttributes.cs
+C:\repos\MoutsTI-Desafio\MoutsTI.API\obj\Release\net8.0\MoutsTI.API.AssemblyInfo.cs
+C:\repos\MoutsTI-Desafio\MoutsTI.API\obj\Release\net8.0\MoutsTI.API.MvcApplicationPartsAssemblyInfo.cs
+C:\repos\MoutsTI-Desafio\MoutsTI.API\appsettings.Development.json
+C:\repos\MoutsTI-Desafio\MoutsTI.API\appsettings.json
+C:\repos\MoutsTI-Desafio\MoutsTI.API\appsettings.Template.json
+C:\repos\MoutsTI-Desafio\MoutsTI.API\.gitignore
+C:\repos\MoutsTI-Desafio\MoutsTI.API\logs\moutsti-20251212.log
+C:\repos\MoutsTI-Desafio\MoutsTI.API\MoutsTI.API.http
+C:\repos\MoutsTI-Desafio\MoutsTI.API\Properties\launchSettings.json
+C:\repos\MoutsTI-Desafio\MoutsTI.API\obj\Release\net8.0\apphost.exe

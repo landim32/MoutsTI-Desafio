@@ -1,0 +1,6 @@
+﻿C:\repos\MoutsTI-Desafio\MoutsTI.Dtos\EmployeeDto.cs
+C:\repos\MoutsTI-Desafio\MoutsTI.Dtos\EmployeeRoleDto.cs
+C:\repos\MoutsTI-Desafio\MoutsTI.Dtos\LoginDto.cs
+C:\repos\MoutsTI-Desafio\MoutsTI.Dtos\LoginResponseDto.cs
+C:\repos\MoutsTI-Desafio\MoutsTI.Dtos\ManagerDto.cs
+C:\repos\MoutsTI-Desafio\MoutsTI.Dtos\PersonDto.cs

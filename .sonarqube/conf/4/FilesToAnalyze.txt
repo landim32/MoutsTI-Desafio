@@ -1,0 +1,9 @@
+﻿C:\repos\MoutsTI-Desafio\MoutsTI.Infra\Context\Employee.cs
+C:\repos\MoutsTI-Desafio\MoutsTI.Infra\Context\EmployeePhone.cs
+C:\repos\MoutsTI-Desafio\MoutsTI.Infra\Context\EmployeeRole.cs
+C:\repos\MoutsTI-Desafio\MoutsTI.Infra\Context\MoutsTIContext.cs
+C:\repos\MoutsTI-Desafio\MoutsTI.Infra\Mapping\Profiles\EmployeePhoneProfile.cs
+C:\repos\MoutsTI-Desafio\MoutsTI.Infra\Mapping\Profiles\EmployeeProfile.cs
+C:\repos\MoutsTI-Desafio\MoutsTI.Infra\Mapping\Profiles\EmployeeRoleProfile.cs
+C:\repos\MoutsTI-Desafio\MoutsTI.Infra\Repositories\EmployeeRepository.cs
+C:\repos\MoutsTI-Desafio\MoutsTI.Infra\Repositories\EmployeeRoleRepository.cs

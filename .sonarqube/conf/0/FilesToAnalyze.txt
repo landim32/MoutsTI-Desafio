@@ -1,0 +1,2 @@
+﻿C:\repos\MoutsTI-Desafio\MoutsTI.Infra.Interfaces\Repositories\IEmployeeRepository.cs
+C:\repos\MoutsTI-Desafio\MoutsTI.Infra.Interfaces\Repositories\IEmployeeRoleRepository.cs
