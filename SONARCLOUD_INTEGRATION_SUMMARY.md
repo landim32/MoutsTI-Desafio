@@ -25,20 +25,20 @@
 - Links para análise
 
 ### 3. Configuração
-?? **`sonar-project.properties`**
-- Arquivo de configuração do SonarCloud
-- Define exclusões e parâmetros
-- Usado pela pipeline
-
 ?? **`sonar-analysis.ps1`** (atualizado)
-- Removidas credenciais hardcoded
 - Script seguro para execução local
 - Validações melhoradas
+- Suporte a SonarCloud e SonarQube local
 
 ?? **`sonar-analysis.example.ps1`**
 - Exemplo de uso do script
 - Instruções de onde encontrar credenciais
 - Template para uso local
+
+?? **`.editorconfig`**
+- Configuração de encoding UTF-8
+- Regras de formatação de código
+- Garante consistência entre Windows e Linux
 
 ### 4. Git
 ?? **`.gitignore`** (atualizado)
@@ -53,7 +53,7 @@
 ### 1?? Configurar Secret no GitHub
 ```
 1. Acesse: https://github.com/landim32/MoutsTI-Desafio/settings/secrets/actions
-2. Adicione: SONAR_TOKEN = 8a5afa0b227123427cbeb29ce22814d7705a7606
+2. Adicione: SONAR_TOKEN = seu_token_aqui
 ```
 
 ### 2?? Commit e Push
@@ -86,8 +86,9 @@ A pipeline é executada automaticamente em:
 6. ? Inicia análise SonarCloud
 7. ? Build em Release
 8. ? Executa testes com cobertura
-9. ? Finaliza análise e envia para SonarCloud
-10. ? Upload de artefatos (testes e cobertura)
+9. ? Lista arquivos de cobertura gerados
+10. ? Finaliza análise e envia para SonarCloud
+11. ? Upload de artefatos (testes e cobertura)
 
 ---
 
@@ -127,6 +128,10 @@ Eles atualizam automaticamente após cada análise!
 - Evita commit de arquivos sensíveis do SonarQube
 - Protege relatórios locais
 
+? **Arquivo .editorconfig criado**
+- Garante encoding UTF-8 em todos os arquivos
+- Evita problemas de encoding entre Windows/Linux
+
 ---
 
 ## ?? Documentação de Referência
@@ -137,6 +142,8 @@ Eles atualizam automaticamente após cada análise!
 | `SONARCLOUD_QUICKSTART.md` | Guia rápido de início |
 | `sonar-analysis.example.ps1` | Exemplo de execução local |
 | `README.md` | Documentação principal do projeto |
+| `ENCODING_FIX.md` | Documentação sobre fix de encoding UTF-8 |
+| `.editorconfig` | Configurações de editor e encoding |
 
 ---
 
@@ -167,6 +174,8 @@ Após a configuração completa, você terá:
 - ? Dashboard completo no SonarCloud
 - ? Relatórios de cobertura de testes
 - ? Alertas automáticos sobre problemas de qualidade
+- ? Encoding UTF-8 consistente em todos os arquivos
+- ? 326 testes passando (100% de sucesso)
 
 ---
 
@@ -193,11 +202,31 @@ Para dúvidas ou problemas:
 1. ? Verifique que `sonar-analysis.ps1` não contém credenciais hardcoded
 2. ? Configure o secret `SONAR_TOKEN` no GitHub
 3. ? Revise todos os arquivos criados
-4. ? Faça commit e push
+4. ? Execute os testes localmente: `dotnet test`
+5. ? Faça commit e push
 
 ---
 
-**Data de criação**: $(Get-Date -Format "dd/MM/yyyy HH:mm")
-**Versão**: 1.0.0
-**Projeto**: MoutsTI-Desafio
+## ?? Changelog
+
+### v1.1.0 - 12/12/2024
+- ? Removido `sonar-project.properties` (não é usado pelo SonarScanner para .NET)
+- ? Corrigidos paths de relatórios de cobertura
+- ? Adicionado step para listar arquivos de cobertura
+- ? Melhoradas exclusões de arquivos
+- ? Adicionado `.editorconfig` para encoding UTF-8
+- ? Corrigido encoding de caracteres acentuados
+- ? Atualizadas actions do GitHub para v4
+
+### v1.0.0 - 12/12/2024
+- ? Configuração inicial do SonarCloud
+- ? Pipeline do GitHub Actions
+- ? Script PowerShell para análise local
+- ? Documentação completa
+
+---
+
+**Data de atualização**: 12/12/2024  
+**Versão**: 1.1.0  
+**Projeto**: MoutsTI-Desafio  
 **Tecnologia**: .NET 8 + SonarCloud + GitHub Actions

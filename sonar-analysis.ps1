@@ -92,10 +92,10 @@ if ($SonarOrganization) {
 }
 
 # Configurações de cobertura de código
-$sonarBeginArgs += "/d:sonar.cs.opencover.reportsPaths=`"coverage/coverage.opencover.xml`""
-$sonarBeginArgs += "/d:sonar.cs.vstest.reportsPaths=`"TestResults/*.trx`""
-$sonarBeginArgs += "/d:sonar.coverage.exclusions=`"**Tests/**,**/*.cshtml,**/Program.cs,**/Migrations/**`""
-$sonarBeginArgs += "/d:sonar.exclusions=`"**/obj/**,**/bin/**,**/*.js,**/*.css`""
+$sonarBeginArgs += "/d:sonar.cs.opencover.reportsPaths=`"**/TestResults/**/coverage.opencover.xml`""
+$sonarBeginArgs += "/d:sonar.cs.vstest.reportsPaths=`"**/TestResults/*.trx`""
+$sonarBeginArgs += "/d:sonar.coverage.exclusions=`"**/*Tests/**,**/*.cshtml,**/Program.cs,**/Migrations/**,**/moutsti.presentation/**`""
+$sonarBeginArgs += "/d:sonar.exclusions=`"**/obj/**,**/bin/**,**/*.js,**/*.css,**/wwwroot/**,**/moutsti.presentation/**,**/node_modules/**`""
 
 Write-Host ""
 Write-Host "Executando: dotnet $($sonarBeginArgs -join ' ')" -ForegroundColor Cyan
@@ -136,13 +136,20 @@ Write-Host "Executando testes com cobertura..." -ForegroundColor Green
 dotnet test `
     --configuration Release `
     --no-build `
-    --logger "trx" `
+    --logger "trx;LogFileName=test-results.trx" `
     --collect:"XPlat Code Coverage" `
     --results-directory "./TestResults" `
     -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
 
 if ($LASTEXITCODE -ne 0) {
     Write-Host "Aviso: Alguns testes falharam, mas continuando com a análise..." -ForegroundColor Yellow
+}
+
+# Listar arquivos de cobertura encontrados
+Write-Host ""
+Write-Host "Arquivos de cobertura gerados:" -ForegroundColor Green
+Get-ChildItem -Path ".\TestResults" -Recurse -Include "*.xml","*.trx" | ForEach-Object {
+    Write-Host "  - $($_.FullName)" -ForegroundColor Gray
 }
 
 # Consolidar relatórios de cobertura
@@ -155,7 +162,9 @@ New-Item -ItemType Directory -Force -Path ".\coverage" | Out-Null
 # Encontrar todos os arquivos de cobertura
 $coverageFiles = Get-ChildItem -Path ".\TestResults" -Filter "coverage.opencover.xml" -Recurse
 if ($coverageFiles.Count -eq 0) {
-    $coverageFiles = Get-ChildItem -Path ".\TestResults" -Filter "*.xml" -Recurse | Where-Object { $_.Directory.Name -match "^[a-f0-9\-]{36}$" }
+    $coverageFiles = Get-ChildItem -Path ".\TestResults" -Filter "*.xml" -Recurse | Where-Object { 
+        $_.Directory.Name -match "^[a-f0-9\-]{36}$" -and $_.Name -notlike "*.trx" 
+    }
 }
 
 if ($coverageFiles.Count -eq 0) {
