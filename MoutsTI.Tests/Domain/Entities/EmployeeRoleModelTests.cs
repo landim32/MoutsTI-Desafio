@@ -695,7 +695,7 @@ namespace MoutsTI.Tests.Domain.Entities
             var result = role.ToString();
 
             // Assert
-            result.Should().Be("Developer (Nível 3)");
+            result.Should().Be("Developer (Nivel 3)");
         }
 
         [Fact]
@@ -708,7 +708,7 @@ namespace MoutsTI.Tests.Domain.Entities
             var result = role.ToString();
 
             // Assert
-            result.Should().Be("Senior Developer (Nível 5)");
+            result.Should().Be("Senior Developer (Nivel 5)");
         }
 
         [Fact]
@@ -721,7 +721,7 @@ namespace MoutsTI.Tests.Domain.Entities
             var result = role.ToString();
 
             // Assert
-            result.Should().Be("Intern (Nível 1)");
+            result.Should().Be("Intern (Nivel 1)");
         }
 
         [Fact]
@@ -734,7 +734,7 @@ namespace MoutsTI.Tests.Domain.Entities
             var result = role.ToString();
 
             // Assert
-            result.Should().Be("Executive (Nível 100)");
+            result.Should().Be("Executive (Nivel 100)");
         }
 
         [Fact]
@@ -748,7 +748,7 @@ namespace MoutsTI.Tests.Domain.Entities
             var result = role.ToString();
 
             // Assert
-            result.Should().Be($"{longName} (Nível 7)");
+            result.Should().Be($"{longName} (Nivel 7)");
         }
 
         [Fact]
@@ -762,7 +762,7 @@ namespace MoutsTI.Tests.Domain.Entities
             var result = role.ToString();
 
             // Assert
-            result.Should().Be("Senior Developer (Nível 3)");
+            result.Should().Be("Senior Developer (Nivel 3)");
         }
 
         [Fact]
@@ -776,7 +776,7 @@ namespace MoutsTI.Tests.Domain.Entities
             var result = role.ToString();
 
             // Assert
-            result.Should().Be("Developer (Nível 5)");
+            result.Should().Be("Developer (Nivel 5)");
         }
 
         #endregion

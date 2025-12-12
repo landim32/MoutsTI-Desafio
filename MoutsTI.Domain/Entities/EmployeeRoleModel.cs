@@ -1,4 +1,4 @@
-﻿using MoutsTI.Domain.Entities.Interfaces;
+using MoutsTI.Domain.Entities.Interfaces;
 
 namespace MoutsTI.Domain.Entities
 {
