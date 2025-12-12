@@ -31,11 +31,8 @@ namespace MoutsTI.Domain.Services
 
         public long Add(EmployeeDto employee, EmployeeDto currentEmployee)
         {
-            if (employee == null)
-                throw new ArgumentNullException(nameof(employee));
-
-            if (currentEmployee == null)
-                throw new ArgumentNullException(nameof(currentEmployee));
+            ArgumentNullException.ThrowIfNull(employee);
+            ArgumentNullException.ThrowIfNull(currentEmployee);
 
             _logger.LogInformation("Adding new employee. Email: {Email}, RoleId: {RoleId}, RequestedBy: {CurrentEmployeeId}", 
                 employee.Email, employee.RoleId, currentEmployee.EmployeeId);
@@ -77,7 +74,7 @@ namespace MoutsTI.Domain.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error adding employee. Email: {Email}", employee.Email);
-                throw;
+                throw new InvalidOperationException(ex.Message, ex);
             }
         }
 
@@ -101,7 +98,7 @@ namespace MoutsTI.Domain.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error deleting employee: {EmployeeId}", employeeId);
-                throw;
+                throw new InvalidOperationException($"Error deleting employee: {employeeId}", ex);
             }
         }
 
@@ -131,7 +128,7 @@ namespace MoutsTI.Domain.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error getting employee by ID: {EmployeeId}", employeeId);
-                throw;
+                throw new Exception($"Error getting employee by ID: employeeId", ex);
             }
         }
 
@@ -150,7 +147,7 @@ namespace MoutsTI.Domain.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error listing all employees");
-                throw;
+                throw new InvalidOperationException("Error listing all employees", ex);
             }
         }
 
@@ -205,6 +202,11 @@ namespace MoutsTI.Domain.Services
                     employee.EmployeeId, currentEmployee.EmployeeId);
                 throw;
             }
+            catch (InvalidOperationException ex)
+            {
+                _logger.LogError(ex, "Error updating employee: {EmployeeId}", employee.EmployeeId);
+                throw;
+            }
             catch (ArgumentException ex)
             {
                 _logger.LogWarning(ex, "Validation error while updating employee: {EmployeeId}", employee.EmployeeId);
@@ -213,7 +215,7 @@ namespace MoutsTI.Domain.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error updating employee: {EmployeeId}", employee.EmployeeId);
-                throw;
+                throw new InvalidOperationException(ex.Message, ex);
             }
         }
 

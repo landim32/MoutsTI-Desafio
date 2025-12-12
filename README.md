@@ -1,6 +1,7 @@
 ﻿# MoutsTI - Sistema de Gerenciamento de Funcionários
 
 ![.NET](https://img.shields.io/badge/.NET-8.0-blue)
+![React Version](https://img.shields.io/badge/React-18.2.0-61DAFB?logo=react)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=landim32_MoutsTI-Desafio&metric=alert_status)](https://sonarcloud.io/project/overview?id=landim32_MoutsTI-Desafio)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=landim32_MoutsTI-Desafio&metric=coverage)](https://sonarcloud.io/project/overview?id=landim32_MoutsTI-Desafio)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=landim32_MoutsTI-Desafio&metric=bugs)](https://sonarcloud.io/project/overview?id=landim32_MoutsTI-Desafio)

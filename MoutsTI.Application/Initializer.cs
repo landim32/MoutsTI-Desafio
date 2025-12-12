@@ -14,7 +14,7 @@ using System.Text;
 
 namespace MoutsTI.Application
 {
-    public class Initializer
+    public static class Initializer
     {
         private static void injectDependency(Type serviceType, Type implementationType, IServiceCollection services, bool scoped = true)
         {
@@ -59,7 +59,7 @@ namespace MoutsTI.Application
             #endregion
 
             #region AutoMapper
-            services.AddAutoMapper(cfg => { }, typeof(EmployeeProfile).Assembly);
+            services.AddAutoMapper(cfg => { }, typeof(EmployeeToEntityProfile).Assembly);
             services.AddAutoMapper(cfg => { }, typeof(EmployeeRoleProfile).Assembly);
             services.AddAutoMapper(cfg => { }, typeof(EmployeePhoneProfile).Assembly);
             #endregion

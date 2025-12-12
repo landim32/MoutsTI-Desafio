@@ -33,9 +33,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5 - Extra Files", "5 - Extra Files", "{F73338F1-533D-4CC8-9B75-BB25583BAF83}"
 	ProjectSection(SolutionItems) = preProject
 		createContext.bat = createContext.bat
+		LICENSE = LICENSE
 		MoutsTI-Desafio.sql = MoutsTI-Desafio.sql
 		Net 8 - Teste Técnico.pdf = Net 8 - Teste Técnico.pdf
-		sonar-analysis.ps1 = sonar-analysis.ps1
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoutsTI.Tests", "MoutsTI.Tests\MoutsTI.Tests.csproj", "{F934D8C5-3D9E-405D-909B-AE82CC3EF485}"

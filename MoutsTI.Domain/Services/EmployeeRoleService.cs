@@ -40,7 +40,7 @@ namespace MoutsTI.Domain.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error listing all employee roles");
-                throw;
+                throw new InvalidOperationException("An error occurred while listing all employee roles.", ex);
             }
         }
     }

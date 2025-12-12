@@ -1,9 +1,10 @@
 ﻿using MoutsTI.Domain.Entities.Interfaces;
 using System.Text.RegularExpressions;
+using System.Runtime.CompilerServices;
 
 namespace MoutsTI.Domain.Entities
 {
-    public class EmployeeModel : IEmployeeModel
+    public partial class EmployeeModel : IEmployeeModel
     {
         private readonly List<EmployeePhoneModel> _phones;
 
@@ -18,73 +19,32 @@ namespace MoutsTI.Domain.Entities
         public long? ManagerId { get; private set; }
 
         // Navigation properties
-        IEmployeeRoleModel IEmployeeModel.Role => Role;
-        IEmployeeModel IEmployeeModel.Manager => Manager;
+        IEmployeeRoleModel? IEmployeeModel.Role => Role;
+        IEmployeeModel? IEmployeeModel.Manager => Manager;
         IReadOnlyCollection<IEmployeePhoneModel> IEmployeeModel.Phones => Phones;
 
-        public EmployeeRoleModel Role { get; private set; }
-        public EmployeeModel Manager { get; private set; }
+        public EmployeeRoleModel? Role { get; }
+        public EmployeeModel? Manager { get; }
         public IReadOnlyCollection<EmployeePhoneModel> Phones => _phones.AsReadOnly();
 
-        // Construtor privado para garantir criação através de factory methods
-        private EmployeeModel(long employeeId, string firstName, string lastName, string docNumber,
-            string email, string password, DateTime birthday, long roleId, long? managerId)
-        {
-            EmployeeId = employeeId;
-            FirstName = firstName;
-            LastName = lastName;
-            DocNumber = docNumber;
-            Email = email;
-            Password = password;
-            Birthday = birthday;
-            RoleId = roleId;
-            ManagerId = managerId;
-            _phones = new List<EmployeePhoneModel>();
-        }
-
-        // Construtor para criação de novo funcionário (sem ID)
-        private EmployeeModel(string firstName, string lastName, string docNumber,
-            string email, string password, DateTime birthday, long roleId, long? managerId = null)
-        {
-            ValidateFirstName(firstName);
-            ValidateLastName(lastName);
-            ValidateDocNumber(docNumber);
-            ValidateEmail(email);
-            ValidatePassword(password);
-            ValidateBirthday(birthday);
-            ValidateRoleId(roleId);
-
-            FirstName = firstName;
-            LastName = lastName;
-            DocNumber = NormalizeDocNumber(docNumber);
-            Email = email.ToLowerInvariant().Trim();
-            Password = password;
-            Birthday = birthday;
-            RoleId = roleId;
-            ManagerId = managerId;
-            _phones = new List<EmployeePhoneModel>();
-        }
-
         // Factory method para criar um novo funcionário
-        public static EmployeeModel Create(string firstName, string lastName, string docNumber,
-            string email, string password, DateTime birthday, long roleId, long? managerId = null)
+        public static EmployeeModel Create(EmployeeModelParameters parameters)
         {
-            return new EmployeeModel(firstName, lastName, docNumber, email, password, birthday, roleId, managerId);
+            return new EmployeeModel(parameters);
         }
 
         // Factory method para reconstruir um funcionário existente (da base de dados)
-        public static EmployeeModel Load(long employeeId, string firstName, string lastName, string docNumber,
-            string email, string password, DateTime birthday, long roleId, long? managerId)
+        public static EmployeeModel Load(EmployeeModelParameters parameters)
         {
-            ValidateFirstName(firstName);
-            ValidateLastName(lastName);
-            ValidateDocNumber(docNumber);
-            ValidateEmail(email);
-            ValidatePassword(password);
-            ValidateBirthday(birthday);
-            ValidateRoleId(roleId);
+            ValidateFirstName(parameters.FirstName);
+            ValidateLastName(parameters.LastName);
+            ValidateDocNumber(parameters.DocNumber);
+            ValidateEmail(parameters.Email);
+            ValidatePassword(parameters.Password);
+            ValidateBirthday(parameters.Birthday);
+            ValidateRoleId(parameters.RoleId);
 
-            return new EmployeeModel(employeeId, firstName, lastName, docNumber, email, password, birthday, roleId, managerId);
+            return new EmployeeModel(parameters);
         }
 
         // Métodos de negócio para atualizar propriedades
@@ -258,9 +218,6 @@ namespace MoutsTI.Domain.Entities
 
         private static void ValidatePassword(string password)
         {
-            //if (string.IsNullOrWhiteSpace(password))
-            //    throw new ArgumentException("Password cannot be empty.", nameof(password));
-
             if (password?.Length > 520)
                 throw new ArgumentException("Password cannot exceed 520 characters.", nameof(password));
         }
@@ -315,6 +272,48 @@ namespace MoutsTI.Domain.Entities
         public override string ToString()
         {
             return GetFullName();
+        }
+
+        // Substitua o construtor privado de 8 parâmetros por um que aceita um objeto de parâmetros, reduzindo o número de parâmetros diretos.
+        // Isso resolve o S107, pois o construtor agora recebe apenas um parâmetro.
+        private EmployeeModel(EmployeeModelParameters parameters)
+        {
+            ValidateFirstName(parameters.FirstName);
+            ValidateLastName(parameters.LastName);
+            ValidateDocNumber(parameters.DocNumber);
+            ValidateEmail(parameters.Email);
+            ValidatePassword(parameters.Password);
+            ValidateBirthday(parameters.Birthday);
+            ValidateRoleId(parameters.RoleId);
+
+            EmployeeId = parameters.EmployeeId;
+            FirstName = parameters.FirstName;
+            LastName = parameters.LastName;
+            DocNumber = NormalizeDocNumber(parameters.DocNumber);
+            Email = parameters.Email.ToLowerInvariant().Trim();
+            Password = parameters.Password;
+            Birthday = parameters.Birthday;
+            RoleId = parameters.RoleId;
+            ManagerId = parameters.ManagerId;
+            Role = parameters.Role;
+            Manager = parameters.Manager;
+            _phones = new List<EmployeePhoneModel>();
+        }
+
+        // Classe interna para os parâmetros do construtor
+        public sealed class EmployeeModelParameters
+        {
+            public long EmployeeId { get; set; }
+            public string FirstName { get; set; } = string.Empty;
+            public string LastName { get; set; } = string.Empty;
+            public string DocNumber { get; set; } = string.Empty;
+            public string Email { get; set; } = string.Empty;
+            public string Password { get; set; } = string.Empty;
+            public DateTime Birthday { get; set; }
+            public long RoleId { get; set; }
+            public long? ManagerId { get; set; }
+            public EmployeeRoleModel? Role { get; set; }
+            public EmployeeModel? Manager { get; set; }
         }
     }
 }

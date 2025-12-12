@@ -13,10 +13,10 @@ namespace MoutsTI.Tests.Domain.Services
 {
     public class AuthServiceTests
     {
-        private Mock<IEmployeeRepository<IEmployeeModel>> _mockEmployeeRepository;
-        private Mock<IConfiguration> _mockConfiguration;
-        private Mock<ILogger<AuthService>> _mockLogger;
-        private AuthService _authService;
+        private readonly Mock<IEmployeeRepository<IEmployeeModel>> _mockEmployeeRepository;
+        private readonly Mock<IConfiguration> _mockConfiguration;
+        private readonly Mock<ILogger<AuthService>> _mockLogger;
+        private readonly AuthService _authService;
 
         public AuthServiceTests()
         {
@@ -46,17 +46,17 @@ namespace MoutsTI.Tests.Domain.Services
             var password = "password123";
             var hashedPassword = _authService.HashPassword(password);
 
-            var employee = EmployeeModel.Load(
-                1L,
-                "John",
-                "Doe",
-                "12345678901",
-                email,
-                hashedPassword,
-                new DateTime(1990, 1, 1),
-                1L,
-                null
-            );
+            var employee = EmployeeModel.Load(new EmployeeModel.EmployeeModelParameters
+            {
+                EmployeeId = 1L,
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "12345678901",
+                Email = email,
+                Password = hashedPassword,
+                Birthday = new DateTime(1990, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+                RoleId = 1L
+            });
 
             _mockEmployeeRepository
                 .Setup(x => x.GetByEmailAsync(email))
@@ -100,17 +100,17 @@ namespace MoutsTI.Tests.Domain.Services
             var wrongPassword = "wrongPassword";
             var hashedPassword = _authService.HashPassword(correctPassword);
 
-            var employee = EmployeeModel.Load(
-                1L,
-                "John",
-                "Doe",
-                "12345678901",
-                email,
-                hashedPassword,
-                new DateTime(1990, 1, 1),
-                1L,
-                null
-            );
+            var employee = EmployeeModel.Load(new EmployeeModel.EmployeeModelParameters
+            {
+                EmployeeId = 1L,
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "12345678901",
+                Email = email,
+                Password = hashedPassword,
+                Birthday = new DateTime(1990, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+                RoleId = 1L
+            });
 
             _mockEmployeeRepository
                 .Setup(x => x.GetByEmailAsync(email))
@@ -150,17 +150,17 @@ namespace MoutsTI.Tests.Domain.Services
             var password = string.Empty;
             var hashedPassword = _authService.HashPassword("correctPassword");
 
-            var employee = EmployeeModel.Load(
-                1L,
-                "John",
-                "Doe",
-                "12345678901",
-                email,
-                hashedPassword,
-                new DateTime(1990, 1, 1),
-                1L,
-                null
-            );
+            var employee = EmployeeModel.Load(new EmployeeModel.EmployeeModelParameters
+            {
+                EmployeeId = 1L,
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "12345678901",
+                Email = email,
+                Password = hashedPassword,
+                Birthday = new DateTime(1990, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+                RoleId = 1L
+            });
 
             _mockEmployeeRepository
                 .Setup(x => x.GetByEmailAsync(email))
@@ -181,17 +181,17 @@ namespace MoutsTI.Tests.Domain.Services
         public void GenerateJwtToken_WithValidEmployee_ShouldReturnValidToken()
         {
             // Arrange
-            var employee = EmployeeModel.Load(
-                1L,
-                "John",
-                "Doe",
-                "12345678901",
-                "john.doe@example.com",
-                "hashedPassword",
-                new DateTime(1990, 1, 1),
-                2L,
-                null
-            );
+            var employee = EmployeeModel.Load(new EmployeeModel.EmployeeModelParameters
+            {
+                EmployeeId = 1L,
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "12345678901",
+                Email = "john.doe@example.com",
+                Password = "hashedPassword",
+                Birthday = new DateTime(1990, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+                RoleId = 2L
+            });
 
             // Act
             var token = _authService.GenerateJwtToken(employee);
@@ -216,17 +216,17 @@ namespace MoutsTI.Tests.Domain.Services
         public void GenerateJwtToken_ShouldHaveExpirationTime()
         {
             // Arrange
-            var employee = EmployeeModel.Load(
-                1L,
-                "John",
-                "Doe",
-                "12345678901",
-                "john.doe@example.com",
-                "hashedPassword",
-                new DateTime(1990, 1, 1),
-                2L,
-                null
-            );
+            var employee = EmployeeModel.Load(new EmployeeModel.EmployeeModelParameters
+            {
+                EmployeeId = 1L,
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "12345678901",
+                Email = "john.doe@example.com",
+                Password = "hashedPassword",
+                Birthday = new DateTime(1990, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+                RoleId = 2L
+            });
 
             // Act
             var token = _authService.GenerateJwtToken(employee);
@@ -243,17 +243,17 @@ namespace MoutsTI.Tests.Domain.Services
         public void GenerateJwtToken_ShouldIncludeUniqueJti()
         {
             // Arrange
-            var employee = EmployeeModel.Load(
-                1L,
-                "John",
-                "Doe",
-                "12345678901",
-                "john.doe@example.com",
-                "hashedPassword",
-                new DateTime(1990, 1, 1),
-                2L,
-                null
-            );
+            var employee = EmployeeModel.Load(new EmployeeModel.EmployeeModelParameters
+            {
+                EmployeeId = 1L,
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "12345678901",
+                Email = "john.doe@example.com",
+                Password = "hashedPassword",
+                Birthday = new DateTime(1990, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+                RoleId = 2L
+            });
 
             // Act
             var token1 = _authService.GenerateJwtToken(employee);
@@ -274,7 +274,7 @@ namespace MoutsTI.Tests.Domain.Services
         public void GenerateJwtToken_WithMissingSecretKey_ShouldThrowInvalidOperationException()
         {
             // Arrange
-            var employee = EmployeeModel.Load(1, "John", "Doe", "123.456.789-01", "john.doe@example.com", "hashedPassword", DateTime.Today.AddYears(-30), 1, null);
+            var employee = EmployeeModel.Load(new EmployeeModel.EmployeeModelParameters { EmployeeId = 1L, FirstName = "John", LastName = "Doe", DocNumber = "123.456.789-01", Email = "john.doe@example.com", Password = "hashedPassword", Birthday = DateTime.SpecifyKind(DateTime.Today.AddYears(-30), DateTimeKind.Utc), RoleId = 1L });
 
             var mockJwtSection = new Mock<IConfigurationSection>();
             mockJwtSection.Setup(x => x["SecretKey"]).Returns((string)null!);
@@ -365,7 +365,7 @@ namespace MoutsTI.Tests.Domain.Services
         [InlineData("short")]
         [InlineData("ThisIsAVeryLongPasswordWithLotsOfCharacters123456789!@#$%^&*()")]
         [InlineData("password with spaces")]
-        [InlineData("pássword-çom-spéçiál-çhàrs")]
+        [InlineData("pàssword-wõm-spëçiàl-çhârs")]
         public void HashPassword_WithVariousPasswords_ShouldReturnValidHash(string password)
         {
             // Act
@@ -388,17 +388,18 @@ namespace MoutsTI.Tests.Domain.Services
             var password = "integrationPassword";
             var hashedPassword = _authService.HashPassword(password);
 
-            var employee = EmployeeModel.Load(
-                10L,
-                "Integration",
-                "Test",
-                "98765432109",
-                email,
-                hashedPassword,
-                new DateTime(1985, 5, 15),
-                3L,
-                5L
-            );
+            var employee = EmployeeModel.Load(new EmployeeModel.EmployeeModelParameters
+            {
+                EmployeeId = 10L,
+                FirstName = "Integration",
+                LastName = "Test",
+                DocNumber = "98765432109",
+                Email = email,
+                Password = hashedPassword,
+                Birthday = new DateTime(1985, 5, 15, 0, 0, 0, DateTimeKind.Utc),
+                RoleId = 3L,
+                ManagerId = 5L
+            });
 
             _mockEmployeeRepository
                 .Setup(x => x.GetByEmailAsync(email))
@@ -445,3 +446,4 @@ namespace MoutsTI.Tests.Domain.Services
         #endregion
     }
 }
+

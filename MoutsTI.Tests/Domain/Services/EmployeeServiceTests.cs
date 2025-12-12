@@ -172,17 +172,17 @@ namespace MoutsTI.Tests.Domain.Services
                 EmployeeRoleModel.Load(6, "Director", 6)
             };
 
-            var employeeModel = EmployeeModel.Load(
-                0,
-                "John",
-                "Doe",
-                "12345678901",
-                "john@example.com",
-                "hashedPassword",
-                DateTime.Now.AddYears(-25),
-                1,
-                null
-            );
+            var employeeModel = EmployeeModel.Load(new EmployeeModel.EmployeeModelParameters
+            {
+                EmployeeId = 0,
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "12345678901",
+                Email = "john@example.com",
+                Password = "hashedPassword",
+                Birthday = DateTime.Now.AddYears(-25),
+                RoleId = 1
+            });
 
             _mockRoleRepository
                 .Setup(x => x.ListAll())
@@ -266,17 +266,17 @@ namespace MoutsTI.Tests.Domain.Services
                 EmployeeRoleModel.Load(6, "Director", 6)
             };
 
-            var employeeModel = EmployeeModel.Load(
-                0,
-                "John",
-                "Doe",
-                "12345678901",
-                "john@example.com",
-                "",
-                DateTime.Now.AddYears(-25),
-                1,
-                null
-            );
+            var employeeModel = EmployeeModel.Load(new EmployeeModel.EmployeeModelParameters
+            {
+                EmployeeId = 0,
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "12345678901",
+                Email = "john@example.com",
+                Password = "",
+                Birthday = DateTime.Now.AddYears(-25),
+                RoleId = 1
+            });
 
             _mockRoleRepository
                 .Setup(x => x.ListAll())
@@ -319,17 +319,17 @@ namespace MoutsTI.Tests.Domain.Services
                 EmployeeRoleModel.Load(3, "Senior", 3)
             };
 
-            var employeeModel = EmployeeModel.Load(
-                0,
-                "John",
-                "Doe",
-                "12345678901",
-                "john@example.com",
-                "hashedPassword",
-                DateTime.Now.AddYears(-25),
-                3,
-                null
-            );
+            var employeeModel = EmployeeModel.Load(new EmployeeModel.EmployeeModelParameters
+            {
+                EmployeeId = 0,
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "12345678901",
+                Email = "john@example.com",
+                Password = "hashedPassword",
+                Birthday = DateTime.Now.AddYears(-25),
+                RoleId = 3
+            });
 
             _mockRoleRepository
                 .Setup(x => x.ListAll())
@@ -511,17 +511,17 @@ namespace MoutsTI.Tests.Domain.Services
 
             var currentEmployee = new EmployeeDto { EmployeeId = 2, RoleId = 6 };
 
-            var existingEmployee = EmployeeModel.Load(
-                1,
-                "John",
-                "Doe",
-                "12345678901",
-                "john@example.com",
-                "oldHash",
-                DateTime.Now.AddYears(-25),
-                1,
-                null
-            );
+            var existingEmployee = EmployeeModel.Load(new EmployeeModel.EmployeeModelParameters
+            {
+                EmployeeId = 1,
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "12345678901",
+                Email = "john@example.com",
+                Password = "oldHash",
+                Birthday = DateTime.Now.AddYears(-25),
+                RoleId = 1
+            });
 
             var roles = new List<IEmployeeRoleModel>
             {
@@ -529,17 +529,17 @@ namespace MoutsTI.Tests.Domain.Services
                 EmployeeRoleModel.Load(6, "Director", 6)
             };
 
-            var updatedEmployeeModel = EmployeeModel.Load(
-                1,
-                "John",
-                "Doe Updated",
-                "12345678901",
-                "john@example.com",
-                "newHashedPassword",
-                DateTime.Now.AddYears(-25),
-                1,
-                null
-            );
+            var updatedEmployeeModel = EmployeeModel.Load(new EmployeeModel.EmployeeModelParameters
+            {
+                EmployeeId = 1,
+                FirstName = "John",
+                LastName = "Doe Updated",
+                DocNumber = "12345678901",
+                Email = "john@example.com",
+                Password = "newHashedPassword",
+                Birthday = DateTime.Now.AddYears(-25),
+                RoleId = 1
+            });
 
             _mockRepository
                 .Setup(x => x.GetById(1))
@@ -584,17 +584,17 @@ namespace MoutsTI.Tests.Domain.Services
 
             var currentEmployee = new EmployeeDto { EmployeeId = 2, RoleId = 6 };
 
-            var existingEmployee = EmployeeModel.Load(
-                1,
-                "John",
-                "Doe",
-                "12345678901",
-                "john@example.com",
-                "oldHash",
-                DateTime.Now.AddYears(-25),
-                1,
-                null
-            );
+            var existingEmployee = EmployeeModel.Load(new EmployeeModel.EmployeeModelParameters
+            {
+                EmployeeId = 1,
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "12345678901",
+                Email = "john@example.com",
+                Password = "oldHash",
+                Birthday = DateTime.Now.AddYears(-25),
+                RoleId = 1
+            });
 
             var roles = new List<IEmployeeRoleModel>
             {
@@ -602,17 +602,17 @@ namespace MoutsTI.Tests.Domain.Services
                 EmployeeRoleModel.Load(6, "Director", 6)
             };
 
-            var updatedEmployeeModel = EmployeeModel.Load(
-                1,
-                "John",
-                "Doe Updated",
-                "12345678901",
-                "john@example.com",
-                "",
-                DateTime.Now.AddYears(-25),
-                1,
-                null
-            );
+            var updatedEmployeeModel = EmployeeModel.Load(new EmployeeModel.EmployeeModelParameters
+            {
+                EmployeeId = 1,
+                FirstName = "John",
+                LastName = "Doe Updated",
+                DocNumber = "12345678901",
+                Email = "john@example.com",
+                Password = "",
+                Birthday = DateTime.Now.AddYears(-25),
+                RoleId = 1
+            });
 
             _mockRepository
                 .Setup(x => x.GetById(1))
@@ -649,17 +649,17 @@ namespace MoutsTI.Tests.Domain.Services
 
             var currentEmployee = new EmployeeDto { EmployeeId = 2, RoleId = 3 }; // Senior
 
-            var existingEmployee = EmployeeModel.Load(
-                1,
-                "John",
-                "Doe",
-                "12345678901",
-                "john@example.com",
-                "hash",
-                DateTime.Now.AddYears(-25),
-                1,
-                null
-            );
+            var existingEmployee = EmployeeModel.Load(new EmployeeModel.EmployeeModelParameters
+            {
+                EmployeeId = 1,
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "12345678901",
+                Email = "john@example.com",
+                Password = "hash",
+                Birthday = DateTime.Now.AddYears(-25),
+                RoleId = 1
+            });
 
             var roles = new List<IEmployeeRoleModel>
             {
@@ -699,17 +699,17 @@ namespace MoutsTI.Tests.Domain.Services
 
             var currentEmployee = new EmployeeDto { EmployeeId = 2, RoleId = 3 }; // Senior
 
-            var existingEmployee = EmployeeModel.Load(
-                1,
-                "John",
-                "Doe",
-                "12345678901",
-                "john@example.com",
-                "hash",
-                DateTime.Now.AddYears(-25),
-                6,
-                null
-            );
+            var existingEmployee = EmployeeModel.Load(new EmployeeModel.EmployeeModelParameters
+            {
+                EmployeeId = 1,
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "12345678901",
+                Email = "john@example.com",
+                Password = "hash",
+                Birthday = DateTime.Now.AddYears(-25),
+                RoleId = 6
+            });
 
             var roles = new List<IEmployeeRoleModel>
             {
@@ -751,17 +751,17 @@ namespace MoutsTI.Tests.Domain.Services
 
             var currentEmployee = new EmployeeDto { EmployeeId = 2, RoleId = 3 };
 
-            var existingEmployee = EmployeeModel.Load(
-                1,
-                "John",
-                "Doe",
-                "12345678901",
-                "john@example.com",
-                "hash",
-                DateTime.Now.AddYears(-25),
-                1,
-                null
-            );
+            var existingEmployee = EmployeeModel.Load(new EmployeeModel.EmployeeModelParameters
+            {
+                EmployeeId = 1,
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "12345678901",
+                Email = "john@example.com",
+                Password = "hash",
+                Birthday = DateTime.Now.AddYears(-25),
+                RoleId = 1
+            });
 
             var roles = new List<IEmployeeRoleModel>
             {
@@ -770,17 +770,17 @@ namespace MoutsTI.Tests.Domain.Services
                 EmployeeRoleModel.Load(3, "Senior", 3)
             };
 
-            var updatedEmployeeModel = EmployeeModel.Load(
-                1,
-                "John",
-                "Doe Updated",
-                "12345678901",
-                "john@example.com",
-                "hashedPassword",
-                DateTime.Now.AddYears(-25),
-                2,
-                null
-            );
+            var updatedEmployeeModel = EmployeeModel.Load(new EmployeeModel.EmployeeModelParameters
+            {
+                EmployeeId = 1,
+                FirstName = "John",
+                LastName = "Doe Updated",
+                DocNumber = "12345678901",
+                Email = "john@example.com",
+                Password = "hashedPassword",
+                Birthday = DateTime.Now.AddYears(-25),
+                RoleId = 2
+            });
 
             _mockRepository
                 .Setup(x => x.GetById(1))
@@ -912,17 +912,17 @@ namespace MoutsTI.Tests.Domain.Services
         public void GetById_WithValidEmployeeId_ShouldReturnMappedDto()
         {
             // Arrange
-            var employeeModel = EmployeeModel.Load(
-                1,
-                "John",
-                "Doe",
-                "12345678901",
-                "john@example.com",
-                "hash",
-                DateTime.Now.AddYears(-25),
-                1,
-                null
-            );
+            var employeeModel = EmployeeModel.Load(new EmployeeModel.EmployeeModelParameters
+            {
+                EmployeeId = 1,
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "12345678901",
+                Email = "john@example.com",
+                Password = "hash",
+                Birthday = DateTime.Now.AddYears(-25),
+                RoleId = 1
+            });
 
             var employeeDto = new EmployeeDto
             {
@@ -987,17 +987,17 @@ namespace MoutsTI.Tests.Domain.Services
         public void ListAll_WhenRepositoryReturnsSingleEmployee_ShouldReturnSingleDto()
         {
             // Arrange
-            var employee = EmployeeModel.Load(
-                1,
-                "John",
-                "Doe",
-                "12345678901",
-                "john@example.com",
-                "hash",
-                DateTime.Now.AddYears(-25),
-                1,
-                null
-            );
+            var employee = EmployeeModel.Load(new EmployeeModel.EmployeeModelParameters
+            {
+                EmployeeId = 1,
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "12345678901",
+                Email = "john@example.com",
+                Password = "hash",
+                Birthday = DateTime.Now.AddYears(-25),
+                RoleId = 1
+            });
             var employeesList = new List<IEmployeeModel> { employee };
 
             var employeeDto = new EmployeeDto
@@ -1035,9 +1035,9 @@ namespace MoutsTI.Tests.Domain.Services
             var birthday = DateTime.Now.AddYears(-25);
             var employees = new List<IEmployeeModel>
             {
-                EmployeeModel.Load(1, "John", "Doe", "12345678901", "john@example.com", "hash1", birthday, 1, null),
-                EmployeeModel.Load(2, "Jane", "Smith", "98765432101", "jane@example.com", "hash2", birthday, 2, null),
-                EmployeeModel.Load(3, "Bob", "Johnson", "11122233301", "bob@example.com", "hash3", birthday, 3, null)
+                EmployeeModel.Load(new EmployeeModel.EmployeeModelParameters { EmployeeId = 1, FirstName = "John", LastName = "Doe", DocNumber = "12345678901", Email = "john@example.com", Password = "hash1", Birthday = birthday, RoleId = 1 }),
+                EmployeeModel.Load(new EmployeeModel.EmployeeModelParameters { EmployeeId = 2, FirstName = "Jane", LastName = "Smith", DocNumber = "98765432101", Email = "jane@example.com", Password = "hash2", Birthday = birthday, RoleId = 2 }),
+                EmployeeModel.Load(new EmployeeModel.EmployeeModelParameters { EmployeeId = 3, FirstName = "Bob", LastName = "Johnson", DocNumber = "11122233301", Email = "bob@example.com", Password = "hash3", Birthday = birthday, RoleId = 3 })
             };
 
             var dtos = new List<EmployeeDto>
@@ -1072,7 +1072,7 @@ namespace MoutsTI.Tests.Domain.Services
             var birthday = DateTime.Now.AddYears(-25);
             var employees = new List<IEmployeeModel>
             {
-                EmployeeModel.Load(1, "John", "Doe", "12345678901", "john@example.com", "hash", birthday, 1, null)
+                EmployeeModel.Load(new EmployeeModel.EmployeeModelParameters { EmployeeId = 1, FirstName = "John", LastName = "Doe", DocNumber = "12345678901", Email = "john@example.com", Password = "hash", Birthday = birthday, RoleId = 1 })
             };
 
             var dtos = new List<EmployeeDto>
@@ -1123,7 +1123,7 @@ namespace MoutsTI.Tests.Domain.Services
                 EmployeeRoleModel.Load(6, "Director", 6)
             };
 
-            var employeeModel = EmployeeModel.Load(0, "New", "Employee", "12345678901", "employee@example.com", "hash", birthday, 1, null);
+            var employeeModel = EmployeeModel.Load(new EmployeeModel.EmployeeModelParameters { EmployeeId = 0, FirstName = "New", LastName = "Employee", DocNumber = "12345678901", Email = "employee@example.com", Password = "hash", Birthday = birthday, RoleId = 1 });
 
             _mockRoleRepository
                 .Setup(x => x.ListAll())
@@ -1205,7 +1205,7 @@ namespace MoutsTI.Tests.Domain.Services
                 EmployeeRoleModel.Load(3, "Senior", 3)
             };
 
-            var employeeModel = EmployeeModel.Load(0, "New", "Employee", "12345678901", "employee@example.com", "hash", birthday, 2, null);
+            var employeeModel = EmployeeModel.Load(new EmployeeModel.EmployeeModelParameters { EmployeeId = 0, FirstName = "New", LastName = "Employee", DocNumber = "12345678901", Email = "employee@example.com", Password = "hash", Birthday = birthday, RoleId = 2 });
 
             _mockRoleRepository
                 .Setup(x => x.ListAll())

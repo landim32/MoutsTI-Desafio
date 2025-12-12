@@ -22,7 +22,16 @@ namespace MoutsTI.Tests.Domain.Entities
             var roleId = 1L;
 
             // Act
-            var employee = EmployeeModel.Create(firstName, lastName, docNumber, email, password, birthday, roleId);
+            var employee = EmployeeModel.Create(new EmployeeModel.EmployeeModelParameters
+            {
+                FirstName = firstName,
+                LastName = lastName,
+                DocNumber = docNumber,
+                Email = email,
+                Password = password,
+                Birthday = birthday,
+                RoleId = roleId
+            });
 
             // Assert
             employee.Should().NotBeNull();
@@ -44,9 +53,17 @@ namespace MoutsTI.Tests.Domain.Entities
             var managerId = 5L;
 
             // Act
-            var employee = EmployeeModel.Create(
-                "John", "Doe", "123.456.789-01", 
-                "john@example.com", "pass", _validBirthday, 1L, managerId);
+            var employee = EmployeeModel.Create(new EmployeeModel.EmployeeModelParameters
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = 1L,
+                ManagerId = managerId
+            });
 
             // Assert
             employee.ManagerId.Should().Be(5);
@@ -57,9 +74,16 @@ namespace MoutsTI.Tests.Domain.Entities
         public void Create_WithoutManager_ShouldCreateInstanceWithNullManagerId()
         {
             // Act
-            var employee = EmployeeModel.Create(
-                "John", "Doe", "123.456.789-01",
-                "john@example.com", "pass", _validBirthday, 1L);
+            var employee = EmployeeModel.Create(new EmployeeModel.EmployeeModelParameters
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = 1L
+            });
 
             // Assert
             employee.ManagerId.Should().BeNull();
@@ -70,12 +94,19 @@ namespace MoutsTI.Tests.Domain.Entities
         public void Create_ShouldNormalizeEmail()
         {
             // Arrange
-            var email = "JOHN.DOE@EXAMPLE.COM"; // Without spaces to avoid validation error
+            var email = "JOHN.DOE@EXAMPLE.COM";
 
             // Act
-            var employee = EmployeeModel.Create(
-                "John", "Doe", "123.456.789-01",
-                email, "pass", _validBirthday, 1L);
+            var employee = EmployeeModel.Create(new EmployeeModel.EmployeeModelParameters
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = email,
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = 1L
+            });
 
             // Assert
             employee.Email.Should().Be("john.doe@example.com");
@@ -88,9 +119,16 @@ namespace MoutsTI.Tests.Domain.Entities
             var docNumber = "  123.456.789-01  ";
 
             // Act
-            var employee = EmployeeModel.Create(
-                "John", "Doe", docNumber,
-                "john@example.com", "pass", _validBirthday, 1L);
+            var employee = EmployeeModel.Create(new EmployeeModel.EmployeeModelParameters
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = docNumber,
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = 1L
+            });
 
             // Assert
             employee.DocNumber.Should().Be("123.456.789-01");
@@ -104,9 +142,16 @@ namespace MoutsTI.Tests.Domain.Entities
         public void Create_WithEmptyFirstName_ShouldThrowArgumentException()
         {
             // Act
-            Action act = () => EmployeeModel.Create(
-                "", "Doe", "123.456.789-01",
-                "john@example.com", "pass", _validBirthday, 1L);
+            Action act = () => EmployeeModel.Create(new EmployeeModel.EmployeeModelParameters
+            {
+                FirstName = "",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = 1L
+            });
 
             // Assert
             act.Should().Throw<ArgumentException>()
@@ -118,9 +163,16 @@ namespace MoutsTI.Tests.Domain.Entities
         public void Create_WithNullFirstName_ShouldThrowArgumentException()
         {
             // Act
-            Action act = () => EmployeeModel.Create(
-                null!, "Doe", "123.456.789-01",
-                "john@example.com", "pass", _validBirthday, 1L);
+            Action act = () => EmployeeModel.Create(new EmployeeModel.EmployeeModelParameters
+            {
+                FirstName = null!,
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = 1L
+            });
 
             // Assert
             act.Should().Throw<ArgumentException>()
@@ -131,9 +183,16 @@ namespace MoutsTI.Tests.Domain.Entities
         public void Create_WithFirstNameLessThan2Characters_ShouldThrowArgumentException()
         {
             // Act
-            Action act = () => EmployeeModel.Create(
-                "J", "Doe", "123.456.789-01",
-                "john@example.com", "pass", _validBirthday, 1L);
+            Action act = () => EmployeeModel.Create(new EmployeeModel.EmployeeModelParameters
+            {
+                FirstName = "J",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = 1L
+            });
 
             // Assert
             act.Should().Throw<ArgumentException>()
@@ -148,9 +207,16 @@ namespace MoutsTI.Tests.Domain.Entities
             var longName = new string('A', 121);
 
             // Act
-            Action act = () => EmployeeModel.Create(
-                longName, "Doe", "123.456.789-01",
-                "john@example.com", "pass", _validBirthday, 1L);
+            Action act = () => EmployeeModel.Create(new EmployeeModel.EmployeeModelParameters
+            {
+                FirstName = longName,
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = 1L
+            });
 
             // Assert
             act.Should().Throw<ArgumentException>()
@@ -165,9 +231,16 @@ namespace MoutsTI.Tests.Domain.Entities
             var name = new string('A', 120);
 
             // Act
-            var employee = EmployeeModel.Create(
-                name, "Doe", "123.456.789-01",
-                "john@example.com", "pass", _validBirthday, 1L);
+            var employee = EmployeeModel.Create(new EmployeeModel.EmployeeModelParameters
+            {
+                FirstName = name,
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = 1L
+            });
 
             // Assert
             employee.FirstName.Should().HaveLength(120);
@@ -181,9 +254,16 @@ namespace MoutsTI.Tests.Domain.Entities
         public void Create_WithEmptyLastName_ShouldThrowArgumentException()
         {
             // Act
-            Action act = () => EmployeeModel.Create(
-                "John", "", "123.456.789-01",
-                "john@example.com", "pass", _validBirthday, 1L);
+            Action act = () => EmployeeModel.Create(new EmployeeModel.EmployeeModelParameters
+            {
+                FirstName = "John",
+                LastName = "",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = 1L
+            });
 
             // Assert
             act.Should().Throw<ArgumentException>()
@@ -195,9 +275,16 @@ namespace MoutsTI.Tests.Domain.Entities
         public void Create_WithLastNameLessThan2Characters_ShouldThrowArgumentException()
         {
             // Act
-            Action act = () => EmployeeModel.Create(
-                "John", "D", "123.456.789-01",
-                "john@example.com", "pass", _validBirthday, 1L);
+            Action act = () => EmployeeModel.Create(new EmployeeModel.EmployeeModelParameters
+            {
+                FirstName = "John",
+                LastName = "D",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = 1L
+            });
 
             // Assert
             act.Should().Throw<ArgumentException>()
@@ -212,9 +299,16 @@ namespace MoutsTI.Tests.Domain.Entities
             var longName = new string('A', 121);
 
             // Act
-            Action act = () => EmployeeModel.Create(
-                "John", longName, "123.456.789-01",
-                "john@example.com", "pass", _validBirthday, 1L);
+            Action act = () => EmployeeModel.Create(new EmployeeModel.EmployeeModelParameters
+            {
+                FirstName = "John",
+                LastName = longName,
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = 1L
+            });
 
             // Assert
             act.Should().Throw<ArgumentException>()
@@ -230,9 +324,16 @@ namespace MoutsTI.Tests.Domain.Entities
         public void Create_WithValidCPF_ShouldCreateInstance()
         {
             // Act
-            var employee = EmployeeModel.Create(
-                "John", "Doe", "123.456.789-01",
-                "john@example.com", "pass", _validBirthday, 1L);
+            var employee = EmployeeModel.Create(new EmployeeModel.EmployeeModelParameters
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = 1L
+            });
 
             // Assert
             employee.Should().NotBeNull();
@@ -242,9 +343,16 @@ namespace MoutsTI.Tests.Domain.Entities
         public void Create_WithValidCNPJ_ShouldCreateInstance()
         {
             // Act
-            var employee = EmployeeModel.Create(
-                "John", "Doe", "12.345.678/0001-90",
-                "john@example.com", "pass", _validBirthday, 1L);
+            var employee = EmployeeModel.Create(new EmployeeModel.EmployeeModelParameters
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "12.345.678/0001-90",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = 1L
+            });
 
             // Assert
             employee.Should().NotBeNull();
@@ -254,9 +362,16 @@ namespace MoutsTI.Tests.Domain.Entities
         public void Create_WithEmptyDocNumber_ShouldThrowArgumentException()
         {
             // Act
-            Action act = () => EmployeeModel.Create(
-                "John", "Doe", "",
-                "john@example.com", "pass", _validBirthday, 1L);
+            Action act = () => EmployeeModel.Create(new EmployeeModel.EmployeeModelParameters
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = 1L
+            });
 
             // Assert
             act.Should().Throw<ArgumentException>()
@@ -268,9 +383,16 @@ namespace MoutsTI.Tests.Domain.Entities
         public void Create_WithInvalidDocNumberLength_ShouldThrowArgumentException()
         {
             // Act
-            Action act = () => EmployeeModel.Create(
-                "John", "Doe", "123.456",
-                "john@example.com", "pass", _validBirthday, 1L);
+            Action act = () => EmployeeModel.Create(new EmployeeModel.EmployeeModelParameters
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "123.456",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = 1L
+            });
 
             // Assert
             act.Should().Throw<ArgumentException>()
@@ -282,9 +404,16 @@ namespace MoutsTI.Tests.Domain.Entities
         public void Create_WithDocNumberAllSameDigits_ShouldThrowArgumentException()
         {
             // Act
-            Action act = () => EmployeeModel.Create(
-                "John", "Doe", "111.111.111-11",
-                "john@example.com", "pass", _validBirthday, 1L);
+            Action act = () => EmployeeModel.Create(new EmployeeModel.EmployeeModelParameters
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "111.111.111-11",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = 1L
+            });
 
             // Assert
             act.Should().Throw<ArgumentException>()
@@ -299,9 +428,16 @@ namespace MoutsTI.Tests.Domain.Entities
             var longDoc = new string('1', 30);
 
             // Act
-            Action act = () => EmployeeModel.Create(
-                "John", "Doe", longDoc,
-                "john@example.com", "pass", _validBirthday, 1L);
+            Action act = () => EmployeeModel.Create(new EmployeeModel.EmployeeModelParameters
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = longDoc,
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = 1L
+            });
 
             // Assert
             act.Should().Throw<ArgumentException>()
@@ -317,9 +453,16 @@ namespace MoutsTI.Tests.Domain.Entities
         public void Create_WithEmptyEmail_ShouldThrowArgumentException()
         {
             // Act
-            Action act = () => EmployeeModel.Create(
-                "John", "Doe", "123.456.789-01",
-                "", "pass", _validBirthday, 1L);
+            Action act = () => EmployeeModel.Create(new EmployeeModel.EmployeeModelParameters
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "",
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = 1L
+            });
 
             // Assert
             act.Should().Throw<ArgumentException>()
@@ -331,9 +474,16 @@ namespace MoutsTI.Tests.Domain.Entities
         public void Create_WithInvalidEmailFormat_ShouldThrowArgumentException()
         {
             // Act
-            Action act = () => EmployeeModel.Create(
-                "John", "Doe", "123.456.789-01",
-                "invalid-email", "pass", _validBirthday, 1L);
+            Action act = () => EmployeeModel.Create(new EmployeeModel.EmployeeModelParameters
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "invalid-email",
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = 1L
+            });
 
             // Assert
             act.Should().Throw<ArgumentException>()
@@ -345,12 +495,19 @@ namespace MoutsTI.Tests.Domain.Entities
         public void Create_WithEmailExceeding180Characters_ShouldThrowArgumentException()
         {
             // Arrange
-            var longEmail = new string('a', 172) + "@test.com"; // Total 181 chars
+            var longEmail = new string('a', 172) + "@test.com";
 
             // Act
-            Action act = () => EmployeeModel.Create(
-                "John", "Doe", "123.456.789-01",
-                longEmail, "pass", _validBirthday, 1L);
+            Action act = () => EmployeeModel.Create(new EmployeeModel.EmployeeModelParameters
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = longEmail,
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = 1L
+            });
 
             // Assert
             act.Should().Throw<ArgumentException>()
@@ -366,9 +523,16 @@ namespace MoutsTI.Tests.Domain.Entities
         public void Create_WithValidEmailFormats_ShouldCreateInstance(string email)
         {
             // Act
-            var employee = EmployeeModel.Create(
-                "John", "Doe", "123.456.789-01",
-                email, "pass", _validBirthday, 1L);
+            var employee = EmployeeModel.Create(new EmployeeModel.EmployeeModelParameters
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = email,
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = 1L
+            });
 
             // Assert
             employee.Email.Should().Be(email.ToLowerInvariant());
@@ -385,9 +549,16 @@ namespace MoutsTI.Tests.Domain.Entities
             var longPassword = new string('a', 521);
 
             // Act
-            Action act = () => EmployeeModel.Create(
-                "John", "Doe", "123.456.789-01",
-                "john@example.com", longPassword, _validBirthday, 1L);
+            Action act = () => EmployeeModel.Create(new EmployeeModel.EmployeeModelParameters
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = longPassword,
+                Birthday = _validBirthday,
+                RoleId = 1L
+            });
 
             // Assert
             act.Should().Throw<ArgumentException>()
@@ -398,10 +569,17 @@ namespace MoutsTI.Tests.Domain.Entities
         [Fact]
         public void Create_WithEmptyPassword_ShouldCreateInstance()
         {
-            // Act - Password validation is commented out in the code
-            var employee = EmployeeModel.Create(
-                "John", "Doe", "123.456.789-01",
-                "john@example.com", "", _validBirthday, 1L);
+            // Act
+            var employee = EmployeeModel.Create(new EmployeeModel.EmployeeModelParameters
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "",
+                Birthday = _validBirthday,
+                RoleId = 1L
+            });
 
             // Assert
             employee.Password.Should().Be("");
@@ -418,9 +596,16 @@ namespace MoutsTI.Tests.Domain.Entities
             var futureBirthday = DateTime.Today.AddDays(1);
 
             // Act
-            Action act = () => EmployeeModel.Create(
-                "John", "Doe", "123.456.789-01",
-                "john@example.com", "pass", futureBirthday, 1L);
+            Action act = () => EmployeeModel.Create(new EmployeeModel.EmployeeModelParameters
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = futureBirthday,
+                RoleId = 1L
+            });
 
             // Assert
             act.Should().Throw<ArgumentException>()
@@ -435,9 +620,16 @@ namespace MoutsTI.Tests.Domain.Entities
             var today = DateTime.Today;
 
             // Act
-            Action act = () => EmployeeModel.Create(
-                "John", "Doe", "123.456.789-01",
-                "john@example.com", "pass", today, 1L);
+            Action act = () => EmployeeModel.Create(new EmployeeModel.EmployeeModelParameters
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = today,
+                RoleId = 1L
+            });
 
             // Assert
             act.Should().Throw<ArgumentException>()
@@ -452,9 +644,16 @@ namespace MoutsTI.Tests.Domain.Entities
             var veryOldBirthday = DateTime.Today.AddYears(-121);
 
             // Act
-            Action act = () => EmployeeModel.Create(
-                "John", "Doe", "123.456.789-01",
-                "john@example.com", "pass", veryOldBirthday, 1L);
+            Action act = () => EmployeeModel.Create(new EmployeeModel.EmployeeModelParameters
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = veryOldBirthday,
+                RoleId = 1L
+            });
 
             // Assert
             act.Should().Throw<ArgumentException>()
@@ -469,9 +668,16 @@ namespace MoutsTI.Tests.Domain.Entities
             var minorBirthday = DateTime.Today.AddYears(-17);
 
             // Act
-            Action act = () => EmployeeModel.Create(
-                "John", "Doe", "123.456.789-01",
-                "john@example.com", "pass", minorBirthday, 1L);
+            Action act = () => EmployeeModel.Create(new EmployeeModel.EmployeeModelParameters
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = minorBirthday,
+                RoleId = 1L
+            });
 
             // Assert
             act.Should().Throw<ArgumentException>()
@@ -486,9 +692,16 @@ namespace MoutsTI.Tests.Domain.Entities
             var birthday = DateTime.Today.AddYears(-18);
 
             // Act
-            var employee = EmployeeModel.Create(
-                "John", "Doe", "123.456.789-01",
-                "john@example.com", "pass", birthday, 1L);
+            var employee = EmployeeModel.Create(new EmployeeModel.EmployeeModelParameters
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = birthday,
+                RoleId = 1L
+            });
 
             // Assert
             employee.GetAge().Should().Be(18);
@@ -504,9 +717,16 @@ namespace MoutsTI.Tests.Domain.Entities
         public void Create_WithZeroRoleId_ShouldThrowArgumentException()
         {
             // Act
-            Action act = () => EmployeeModel.Create(
-                "John", "Doe", "123.456.789-01",
-                "john@example.com", "pass", _validBirthday, 0L);
+            Action act = () => EmployeeModel.Create(new EmployeeModel.EmployeeModelParameters
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = 0L
+            });
 
             // Assert
             act.Should().Throw<ArgumentException>()
@@ -518,9 +738,16 @@ namespace MoutsTI.Tests.Domain.Entities
         public void Create_WithNegativeRoleId_ShouldThrowArgumentException()
         {
             // Act
-            Action act = () => EmployeeModel.Create(
-                "John", "Doe", "123.456.789-01",
-                "john@example.com", "pass", _validBirthday, -1L);
+            Action act = () => EmployeeModel.Create(new EmployeeModel.EmployeeModelParameters
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = -1L
+            });
 
             // Assert
             act.Should().Throw<ArgumentException>()
@@ -536,9 +763,17 @@ namespace MoutsTI.Tests.Domain.Entities
         public void Load_WithValidParameters_ShouldCreateInstance()
         {
             // Act
-            var employee = EmployeeModel.Load(
-                1L, "John", "Doe", "123.456.789-01",
-                "john@example.com", "pass", _validBirthday, 1L, null);
+            var employee = EmployeeModel.Load(new EmployeeModel.EmployeeModelParameters
+            {
+                EmployeeId = 1L,
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = 1L
+            });
 
             // Assert
             employee.Should().NotBeNull();
@@ -551,9 +786,17 @@ namespace MoutsTI.Tests.Domain.Entities
         public void Load_WithZeroEmployeeId_ShouldCreateInstance()
         {
             // Act
-            var employee = EmployeeModel.Load(
-                0L, "John", "Doe", "123.456.789-01",
-                "john@example.com", "pass", _validBirthday, 1L, null);
+            var employee = EmployeeModel.Load(new EmployeeModel.EmployeeModelParameters
+            {
+                EmployeeId = 0L,
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = 1L
+            });
 
             // Assert
             employee.EmployeeId.Should().Be(0);
@@ -563,9 +806,17 @@ namespace MoutsTI.Tests.Domain.Entities
         public void Load_WithNegativeEmployeeId_ShouldCreateInstance()
         {
             // Act
-            var employee = EmployeeModel.Load(
-                -1L, "John", "Doe", "123.456.789-01",
-                "john@example.com", "pass", _validBirthday, 1L, null);
+            var employee = EmployeeModel.Load(new EmployeeModel.EmployeeModelParameters
+            {
+                EmployeeId = -1L,
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = 1L
+            });
 
             // Assert
             employee.EmployeeId.Should().Be(-1);
@@ -575,9 +826,17 @@ namespace MoutsTI.Tests.Domain.Entities
         public void Load_ShouldValidateAllParameters()
         {
             // Act
-            Action act = () => EmployeeModel.Load(
-                1L, "", "Doe", "123.456.789-01",
-                "john@example.com", "pass", _validBirthday, 1L, null);
+            Action act = () => EmployeeModel.Load(new EmployeeModel.EmployeeModelParameters
+            {
+                EmployeeId = 1L,
+                FirstName = "",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = 1L
+            });
 
             // Assert
             act.Should().Throw<ArgumentException>()
@@ -592,9 +851,16 @@ namespace MoutsTI.Tests.Domain.Entities
         public void UpdateFirstName_WithValidName_ShouldUpdateFirstName()
         {
             // Arrange
-            var employee = EmployeeModel.Create(
-                "John", "Doe", "123.456.789-01",
-                "john@example.com", "pass", _validBirthday, 1L);
+            var employee = EmployeeModel.Create(new EmployeeModel.EmployeeModelParameters
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = 1L
+            });
 
             // Act
             employee.UpdateFirstName("Jane");
@@ -607,9 +873,16 @@ namespace MoutsTI.Tests.Domain.Entities
         public void UpdateFirstName_WithInvalidName_ShouldThrowArgumentException()
         {
             // Arrange
-            var employee = EmployeeModel.Create(
-                "John", "Doe", "123.456.789-01",
-                "john@example.com", "pass", _validBirthday, 1L);
+            var employee = EmployeeModel.Create(new EmployeeModel.EmployeeModelParameters
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = 1L
+            });
 
             // Act
             Action act = () => employee.UpdateFirstName("");
@@ -627,9 +900,16 @@ namespace MoutsTI.Tests.Domain.Entities
         public void UpdateLastName_WithValidName_ShouldUpdateLastName()
         {
             // Arrange
-            var employee = EmployeeModel.Create(
-                "John", "Doe", "123.456.789-01",
-                "john@example.com", "pass", _validBirthday, 1L);
+            var employee = EmployeeModel.Create(new EmployeeModel.EmployeeModelParameters
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = 1L
+            });
 
             // Act
             employee.UpdateLastName("Smith");
@@ -642,9 +922,16 @@ namespace MoutsTI.Tests.Domain.Entities
         public void UpdateLastName_WithInvalidName_ShouldThrowArgumentException()
         {
             // Arrange
-            var employee = EmployeeModel.Create(
-                "John", "Doe", "123.456.789-01",
-                "john@example.com", "pass", _validBirthday, 1L);
+            var employee = EmployeeModel.Create(new EmployeeModel.EmployeeModelParameters
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = 1L
+            });
 
             // Act
             Action act = () => employee.UpdateLastName("D");
@@ -662,9 +949,16 @@ namespace MoutsTI.Tests.Domain.Entities
         public void UpdateEmail_WithValidEmail_ShouldUpdateEmail()
         {
             // Arrange
-            var employee = EmployeeModel.Create(
-                "John", "Doe", "123.456.789-01",
-                "john@example.com", "pass", _validBirthday, 1L);
+            var employee = EmployeeModel.Create(new EmployeeModel.EmployeeModelParameters
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = 1L
+            });
 
             // Act
             employee.UpdateEmail("newemail@example.com");
@@ -677,12 +971,19 @@ namespace MoutsTI.Tests.Domain.Entities
         public void UpdateEmail_ShouldNormalizeEmail()
         {
             // Arrange
-            var employee = EmployeeModel.Create(
-                "John", "Doe", "123.456.789-01",
-                "john@example.com", "pass", _validBirthday, 1L);
+            var employee = EmployeeModel.Create(new EmployeeModel.EmployeeModelParameters
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = 1L
+            });
 
             // Act
-            employee.UpdateEmail("NEWEMAIL@EXAMPLE.COM"); // Without extra spaces to avoid validation error
+            employee.UpdateEmail("NEWEMAIL@EXAMPLE.COM");
 
             // Assert
             employee.Email.Should().Be("newemail@example.com");
@@ -692,9 +993,16 @@ namespace MoutsTI.Tests.Domain.Entities
         public void UpdateEmail_WithInvalidEmail_ShouldThrowArgumentException()
         {
             // Arrange
-            var employee = EmployeeModel.Create(
-                "John", "Doe", "123.456.789-01",
-                "john@example.com", "pass", _validBirthday, 1L);
+            var employee = EmployeeModel.Create(new EmployeeModel.EmployeeModelParameters
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = 1L
+            });
 
             // Act
             Action act = () => employee.UpdateEmail("invalid-email");
@@ -712,9 +1020,16 @@ namespace MoutsTI.Tests.Domain.Entities
         public void UpdatePassword_WithValidPassword_ShouldUpdatePassword()
         {
             // Arrange
-            var employee = EmployeeModel.Create(
-                "John", "Doe", "123.456.789-01",
-                "john@example.com", "oldpass", _validBirthday, 1L);
+            var employee = EmployeeModel.Create(new EmployeeModel.EmployeeModelParameters
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "oldpass",
+                Birthday = _validBirthday,
+                RoleId = 1L
+            });
 
             // Act
             employee.UpdatePassword("newpass");
@@ -727,9 +1042,16 @@ namespace MoutsTI.Tests.Domain.Entities
         public void UpdatePassword_WithTooLongPassword_ShouldThrowArgumentException()
         {
             // Arrange
-            var employee = EmployeeModel.Create(
-                "John", "Doe", "123.456.789-01",
-                "john@example.com", "pass", _validBirthday, 1L);
+            var employee = EmployeeModel.Create(new EmployeeModel.EmployeeModelParameters
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = 1L
+            });
             var longPassword = new string('a', 521);
 
             // Act
@@ -748,9 +1070,16 @@ namespace MoutsTI.Tests.Domain.Entities
         public void UpdateBirthday_WithValidBirthday_ShouldUpdateBirthday()
         {
             // Arrange
-            var employee = EmployeeModel.Create(
-                "John", "Doe", "123.456.789-01",
-                "john@example.com", "pass", _validBirthday, 1L);
+            var employee = EmployeeModel.Create(new EmployeeModel.EmployeeModelParameters
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = 1L
+            });
             var newBirthday = DateTime.Today.AddYears(-30);
 
             // Act
@@ -765,9 +1094,16 @@ namespace MoutsTI.Tests.Domain.Entities
         public void UpdateBirthday_WithInvalidBirthday_ShouldThrowArgumentException()
         {
             // Arrange
-            var employee = EmployeeModel.Create(
-                "John", "Doe", "123.456.789-01",
-                "john@example.com", "pass", _validBirthday, 1L);
+            var employee = EmployeeModel.Create(new EmployeeModel.EmployeeModelParameters
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = 1L
+            });
             var futureBirthday = DateTime.Today.AddYears(1);
 
             // Act
@@ -786,9 +1122,16 @@ namespace MoutsTI.Tests.Domain.Entities
         public void UpdateRole_WithValidRoleId_ShouldUpdateRole()
         {
             // Arrange
-            var employee = EmployeeModel.Create(
-                "John", "Doe", "123.456.789-01",
-                "john@example.com", "pass", _validBirthday, 1L);
+            var employee = EmployeeModel.Create(new EmployeeModel.EmployeeModelParameters
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = 1L
+            });
 
             // Act
             employee.UpdateRole(2L);
@@ -801,9 +1144,16 @@ namespace MoutsTI.Tests.Domain.Entities
         public void UpdateRole_WithInvalidRoleId_ShouldThrowArgumentException()
         {
             // Arrange
-            var employee = EmployeeModel.Create(
-                "John", "Doe", "123.456.789-01",
-                "john@example.com", "pass", _validBirthday, 1L);
+            var employee = EmployeeModel.Create(new EmployeeModel.EmployeeModelParameters
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = 1L
+            });
 
             // Act
             Action act = () => employee.UpdateRole(0L);
@@ -821,9 +1171,17 @@ namespace MoutsTI.Tests.Domain.Entities
         public void AssignManager_WithValidManagerId_ShouldAssignManager()
         {
             // Arrange
-            var employee = EmployeeModel.Load(
-                1L, "John", "Doe", "123.456.789-01",
-                "john@example.com", "pass", _validBirthday, 1L, null);
+            var employee = EmployeeModel.Load(new EmployeeModel.EmployeeModelParameters
+            {
+                EmployeeId = 1L,
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = 1L
+            });
 
             // Act
             employee.AssignManager(5L);
@@ -837,9 +1195,18 @@ namespace MoutsTI.Tests.Domain.Entities
         public void AssignManager_WithNull_ShouldRemoveManager()
         {
             // Arrange
-            var employee = EmployeeModel.Load(
-                1L, "John", "Doe", "123.456.789-01",
-                "john@example.com", "pass", _validBirthday, 1L, 5L);
+            var employee = EmployeeModel.Load(new EmployeeModel.EmployeeModelParameters
+            {
+                EmployeeId = 1L,
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = 1L,
+                ManagerId = 5L
+            });
 
             // Act
             employee.AssignManager(null);
@@ -853,9 +1220,17 @@ namespace MoutsTI.Tests.Domain.Entities
         public void AssignManager_WithSelfAsManager_ShouldThrowInvalidOperationException()
         {
             // Arrange
-            var employee = EmployeeModel.Load(
-                1L, "John", "Doe", "123.456.789-01",
-                "john@example.com", "pass", _validBirthday, 1L, null);
+            var employee = EmployeeModel.Load(new EmployeeModel.EmployeeModelParameters
+            {
+                EmployeeId = 1L,
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = 1L
+            });
 
             // Act
             Action act = () => employee.AssignManager(1L);
@@ -873,9 +1248,17 @@ namespace MoutsTI.Tests.Domain.Entities
         public void AddPhone_WithValidPhone_ShouldAddPhone()
         {
             // Arrange
-            var employee = EmployeeModel.Load(
-                1L, "John", "Doe", "123.456.789-01",
-                "john@example.com", "pass", _validBirthday, 1L, null);
+            var employee = EmployeeModel.Load(new EmployeeModel.EmployeeModelParameters
+            {
+                EmployeeId = 1L,
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = 1L
+            });
             var phone = EmployeePhoneModel.Create(1L, "11987654321");
 
             // Act
@@ -890,9 +1273,16 @@ namespace MoutsTI.Tests.Domain.Entities
         public void AddPhone_WithNullPhone_ShouldThrowArgumentNullException()
         {
             // Arrange
-            var employee = EmployeeModel.Create(
-                "John", "Doe", "123.456.789-01",
-                "john@example.com", "pass", _validBirthday, 1L);
+            var employee = EmployeeModel.Create(new EmployeeModel.EmployeeModelParameters
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = 1L
+            });
 
             // Act
             Action act = () => employee.AddPhone(null!);
@@ -906,9 +1296,17 @@ namespace MoutsTI.Tests.Domain.Entities
         public void AddPhone_WithPhoneBelongingToAnotherEmployee_ShouldThrowInvalidOperationException()
         {
             // Arrange
-            var employee = EmployeeModel.Load(
-                1L, "John", "Doe", "123.456.789-01",
-                "john@example.com", "pass", _validBirthday, 1L, null);
+            var employee = EmployeeModel.Load(new EmployeeModel.EmployeeModelParameters
+            {
+                EmployeeId = 1L,
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = 1L
+            });
             var phone = EmployeePhoneModel.Create(2L, "11987654321");
 
             // Act
@@ -923,9 +1321,17 @@ namespace MoutsTI.Tests.Domain.Entities
         public void AddPhone_WithDuplicatePhoneNumber_ShouldThrowInvalidOperationException()
         {
             // Arrange
-            var employee = EmployeeModel.Load(
-                1L, "John", "Doe", "123.456.789-01",
-                "john@example.com", "pass", _validBirthday, 1L, null);
+            var employee = EmployeeModel.Load(new EmployeeModel.EmployeeModelParameters
+            {
+                EmployeeId = 1L,
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = 1L
+            });
             var phone1 = EmployeePhoneModel.Create(1L, "11987654321");
             var phone2 = EmployeePhoneModel.Create(1L, "11987654321");
 
@@ -943,9 +1349,17 @@ namespace MoutsTI.Tests.Domain.Entities
         public void AddPhone_WithMultipleDifferentPhones_ShouldAddAll()
         {
             // Arrange
-            var employee = EmployeeModel.Load(
-                1L, "John", "Doe", "123.456.789-01",
-                "john@example.com", "pass", _validBirthday, 1L, null);
+            var employee = EmployeeModel.Load(new EmployeeModel.EmployeeModelParameters
+            {
+                EmployeeId = 1L,
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = 1L
+            });
             var phone1 = EmployeePhoneModel.Create(1L, "11987654321");
             var phone2 = EmployeePhoneModel.Create(1L, "1133334444");
 
@@ -961,9 +1375,17 @@ namespace MoutsTI.Tests.Domain.Entities
         public void RemovePhone_WithValidPhone_ShouldRemovePhone()
         {
             // Arrange
-            var employee = EmployeeModel.Load(
-                1L, "John", "Doe", "123.456.789-01",
-                "john@example.com", "pass", _validBirthday, 1L, null);
+            var employee = EmployeeModel.Load(new EmployeeModel.EmployeeModelParameters
+            {
+                EmployeeId = 1L,
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = 1L
+            });
             var phone = EmployeePhoneModel.Create(1L, "11987654321");
             employee.AddPhone(phone);
 
@@ -978,9 +1400,16 @@ namespace MoutsTI.Tests.Domain.Entities
         public void RemovePhone_WithNullPhone_ShouldThrowArgumentNullException()
         {
             // Arrange
-            var employee = EmployeeModel.Create(
-                "John", "Doe", "123.456.789-01",
-                "john@example.com", "pass", _validBirthday, 1L);
+            var employee = EmployeeModel.Create(new EmployeeModel.EmployeeModelParameters
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = 1L
+            });
 
             // Act
             Action act = () => employee.RemovePhone(null!);
@@ -999,9 +1428,16 @@ namespace MoutsTI.Tests.Domain.Entities
         {
             // Arrange
             var birthday = DateTime.Today.AddYears(-25);
-            var employee = EmployeeModel.Create(
-                "John", "Doe", "123.456.789-01",
-                "john@example.com", "pass", birthday, 1L);
+            var employee = EmployeeModel.Create(new EmployeeModel.EmployeeModelParameters
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = birthday,
+                RoleId = 1L
+            });
 
             // Act
             var age = employee.GetAge();
@@ -1015,9 +1451,16 @@ namespace MoutsTI.Tests.Domain.Entities
         {
             // Arrange
             var birthday = DateTime.Today.AddYears(-25).AddDays(1); // Birthday hasn't occurred yet this year
-            var employee = EmployeeModel.Create(
-                "John", "Doe", "123.456.789-01",
-                "john@example.com", "pass", birthday, 1L);
+            var employee = EmployeeModel.Create(new EmployeeModel.EmployeeModelParameters
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = birthday,
+                RoleId = 1L
+            });
 
             // Act
             var age = employee.GetAge();
@@ -1031,9 +1474,16 @@ namespace MoutsTI.Tests.Domain.Entities
         {
             // Arrange
             var birthday = DateTime.Today.AddYears(-25);
-            var employee = EmployeeModel.Create(
-                "John", "Doe", "123.456.789-01",
-                "john@example.com", "pass", birthday, 1L);
+            var employee = EmployeeModel.Create(new EmployeeModel.EmployeeModelParameters
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = birthday,
+                RoleId = 1L
+            });
 
             // Act
             var isAdult = employee.IsAdult();
@@ -1047,9 +1497,16 @@ namespace MoutsTI.Tests.Domain.Entities
         {
             // Arrange
             var birthday = DateTime.Today.AddYears(-18);
-            var employee = EmployeeModel.Create(
-                "John", "Doe", "123.456.789-01",
-                "john@example.com", "pass", birthday, 1L);
+            var employee = EmployeeModel.Create(new EmployeeModel.EmployeeModelParameters
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = birthday,
+                RoleId = 1L
+            });
 
             // Act
             var isAdult = employee.IsAdult();
@@ -1063,9 +1520,16 @@ namespace MoutsTI.Tests.Domain.Entities
         {
             // Arrange
             var birthday = DateTime.Today.AddYears(-25);
-            var employee = EmployeeModel.Create(
-                "John", "Doe", "123.456.789-01",
-                "john@example.com", "pass", birthday, 1L);
+            var employee = EmployeeModel.Create(new EmployeeModel.EmployeeModelParameters
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = birthday,
+                RoleId = 1L
+            });
 
             // Act
             var isMinor = employee.IsMinor();
@@ -1082,9 +1546,16 @@ namespace MoutsTI.Tests.Domain.Entities
         public void GetFullName_ShouldReturnCombinedName()
         {
             // Arrange
-            var employee = EmployeeModel.Create(
-                "John", "Doe", "123.456.789-01",
-                "john@example.com", "pass", _validBirthday, 1L);
+            var employee = EmployeeModel.Create(new EmployeeModel.EmployeeModelParameters
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = 1L
+            });
 
             // Act
             var fullName = employee.GetFullName();
@@ -1097,9 +1568,16 @@ namespace MoutsTI.Tests.Domain.Entities
         public void ToString_ShouldReturnFullName()
         {
             // Arrange
-            var employee = EmployeeModel.Create(
-                "John", "Doe", "123.456.789-01",
-                "john@example.com", "pass", _validBirthday, 1L);
+            var employee = EmployeeModel.Create(new EmployeeModel.EmployeeModelParameters
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = 1L
+            });
 
             // Act
             var result = employee.ToString();
@@ -1116,12 +1594,28 @@ namespace MoutsTI.Tests.Domain.Entities
         public void Equals_WithSameEmployeeId_ShouldReturnTrue()
         {
             // Arrange
-            var employee1 = EmployeeModel.Load(
-                1L, "John", "Doe", "123.456.789-01",
-                "john@example.com", "pass", _validBirthday, 1L, null);
-            var employee2 = EmployeeModel.Load(
-                1L, "Jane", "Smith", "987.654.321-09",
-                "jane@example.com", "pass", _validBirthday, 2L, null);
+            var employee1 = EmployeeModel.Load(new EmployeeModel.EmployeeModelParameters
+            {
+                EmployeeId = 1L,
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = 1L
+            });
+            var employee2 = EmployeeModel.Load(new EmployeeModel.EmployeeModelParameters
+            {
+                EmployeeId = 1L,
+                FirstName = "Jane",
+                LastName = "Smith",
+                DocNumber = "987.654.321-09",
+                Email = "jane@example.com",
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = 2L
+            });
 
             // Act
             var areEqual = employee1.Equals(employee2);
@@ -1134,12 +1628,28 @@ namespace MoutsTI.Tests.Domain.Entities
         public void Equals_WithDifferentEmployeeId_ShouldReturnFalse()
         {
             // Arrange
-            var employee1 = EmployeeModel.Load(
-                1L, "John", "Doe", "123.456.789-01",
-                "john@example.com", "pass", _validBirthday, 1L, null);
-            var employee2 = EmployeeModel.Load(
-                2L, "John", "Doe", "123.456.789-01",
-                "john@example.com", "pass", _validBirthday, 1L, null);
+            var employee1 = EmployeeModel.Load(new EmployeeModel.EmployeeModelParameters
+            {
+                EmployeeId = 1L,
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = 1L
+            });
+            var employee2 = EmployeeModel.Load(new EmployeeModel.EmployeeModelParameters
+            {
+                EmployeeId = 2L,
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = 1L
+            });
 
             // Act
             var areEqual = employee1.Equals(employee2);
@@ -1152,9 +1662,16 @@ namespace MoutsTI.Tests.Domain.Entities
         public void Equals_WithNull_ShouldReturnFalse()
         {
             // Arrange
-            var employee = EmployeeModel.Create(
-                "John", "Doe", "123.456.789-01",
-                "john@example.com", "pass", _validBirthday, 1L);
+            var employee = EmployeeModel.Create(new EmployeeModel.EmployeeModelParameters
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = 1L
+            });
 
             // Act
             var areEqual = employee.Equals(null);
@@ -1167,9 +1684,16 @@ namespace MoutsTI.Tests.Domain.Entities
         public void Equals_WithDifferentType_ShouldReturnFalse()
         {
             // Arrange
-            var employee = EmployeeModel.Create(
-                "John", "Doe", "123.456.789-01",
-                "john@example.com", "pass", _validBirthday, 1L);
+            var employee = EmployeeModel.Create(new EmployeeModel.EmployeeModelParameters
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = 1L
+            });
             var other = new object();
 
             // Act
@@ -1183,12 +1707,28 @@ namespace MoutsTI.Tests.Domain.Entities
         public void GetHashCode_WithSameEmployeeId_ShouldReturnSameHashCode()
         {
             // Arrange
-            var employee1 = EmployeeModel.Load(
-                1L, "John", "Doe", "123.456.789-01",
-                "john@example.com", "pass", _validBirthday, 1L, null);
-            var employee2 = EmployeeModel.Load(
-                1L, "Jane", "Smith", "987.654.321-09",
-                "jane@example.com", "pass", _validBirthday, 2L, null);
+            var employee1 = EmployeeModel.Load(new EmployeeModel.EmployeeModelParameters
+            {
+                EmployeeId = 1L,
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = 1L
+            });
+            var employee2 = EmployeeModel.Load(new EmployeeModel.EmployeeModelParameters
+            {
+                EmployeeId = 1L,
+                FirstName = "Jane",
+                LastName = "Smith",
+                DocNumber = "987.654.321-09",
+                Email = "jane@example.com",
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = 2L
+            });
 
             // Act
             var hash1 = employee1.GetHashCode();
@@ -1202,12 +1742,28 @@ namespace MoutsTI.Tests.Domain.Entities
         public void GetHashCode_WithDifferentEmployeeId_ShouldReturnDifferentHashCode()
         {
             // Arrange
-            var employee1 = EmployeeModel.Load(
-                1L, "John", "Doe", "123.456.789-01",
-                "john@example.com", "pass", _validBirthday, 1L, null);
-            var employee2 = EmployeeModel.Load(
-                2L, "John", "Doe", "123.456.789-01",
-                "john@example.com", "pass", _validBirthday, 1L, null);
+            var employee1 = EmployeeModel.Load(new EmployeeModel.EmployeeModelParameters
+            {
+                EmployeeId = 1L,
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = 1L
+            });
+            var employee2 = EmployeeModel.Load(new EmployeeModel.EmployeeModelParameters
+            {
+                EmployeeId = 2L,
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = 1L
+            });
 
             // Act
             var hash1 = employee1.GetHashCode();
@@ -1225,9 +1781,17 @@ namespace MoutsTI.Tests.Domain.Entities
         public void Employee_ShouldMaintainImmutableEmployeeId()
         {
             // Arrange
-            var employee = EmployeeModel.Load(
-                1L, "John", "Doe", "123.456.789-01",
-                "john@example.com", "pass", _validBirthday, 1L, null);
+            var employee = EmployeeModel.Load(new EmployeeModel.EmployeeModelParameters
+            {
+                EmployeeId = 1L,
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = 1L
+            });
             var originalId = employee.EmployeeId;
 
             // Act
@@ -1244,9 +1808,16 @@ namespace MoutsTI.Tests.Domain.Entities
         public void Phones_ShouldBeReadOnly()
         {
             // Arrange
-            var employee = EmployeeModel.Create(
-                "John", "Doe", "123.456.789-01",
-                "john@example.com", "pass", _validBirthday, 1L);
+            var employee = EmployeeModel.Create(new EmployeeModel.EmployeeModelParameters
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = 1L
+            });
 
             // Act
             var phones = employee.Phones;
@@ -1263,9 +1834,16 @@ namespace MoutsTI.Tests.Domain.Entities
         public void Employee_CompleteLifecycle_ShouldMaintainConsistency()
         {
             // Arrange - Create
-            var employee = EmployeeModel.Create(
-                "John", "Doe", "123.456.789-01",
-                "john.doe@example.com", "password", _validBirthday, 1L);
+            var employee = EmployeeModel.Create(new EmployeeModel.EmployeeModelParameters
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "john.doe@example.com",
+                Password = "password",
+                Birthday = _validBirthday,
+                RoleId = 1L
+            });
 
             // Act - Update properties
             employee.UpdateFirstName("Jonathan");
@@ -1297,9 +1875,17 @@ namespace MoutsTI.Tests.Domain.Entities
         public void Employee_WithMultiplePhones_ShouldManageCorrectly()
         {
             // Arrange
-            var employee = EmployeeModel.Load(
-                1L, "John", "Doe", "123.456.789-01",
-                "john@example.com", "pass", _validBirthday, 1L, null);
+            var employee = EmployeeModel.Load(new EmployeeModel.EmployeeModelParameters
+            {
+                EmployeeId = 1L,
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = _validBirthday,
+                RoleId = 1L
+            });
 
             var phone1 = EmployeePhoneModel.Create(1L, "11987654321");
             var phone2 = EmployeePhoneModel.Create(1L, "1133334444");
@@ -1326,9 +1912,16 @@ namespace MoutsTI.Tests.Domain.Entities
         {
             // Arrange
             var birthday = DateTime.Today.AddYears(-years);
-            var employee = EmployeeModel.Create(
-                "John", "Doe", "123.456.789-01",
-                "john@example.com", "pass", birthday, 1L);
+            var employee = EmployeeModel.Create(new EmployeeModel.EmployeeModelParameters
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                DocNumber = "123.456.789-01",
+                Email = "john@example.com",
+                Password = "pass",
+                Birthday = birthday,
+                RoleId = 1L
+            });
 
             // Act & Assert
             employee.GetAge().Should().Be(years);
