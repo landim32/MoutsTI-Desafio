@@ -96,7 +96,7 @@ namespace MoutsTI.Domain.Entities
 
         public override string ToString()
         {
-            return $"{Name} (Nível {Level})";
+            return $"{Name} (Level {Level})";
         }
     }
 }
