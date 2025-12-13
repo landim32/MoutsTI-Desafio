@@ -1,6 +1,6 @@
 ﻿namespace MoutsTI.Infra.Interfaces.Repositories
 {
-    public interface IEmployeeRoleRepository<TModel>
+    public interface IEmployeeRoleRepository<out TModel>
     {
         IEnumerable<TModel> ListAll();
     }

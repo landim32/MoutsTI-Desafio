@@ -95,8 +95,7 @@ namespace MoutsTI.Domain.Entities
         // Gestão de telefones
         public void AddPhone(EmployeePhoneModel phone)
         {
-            if (phone == null)
-                throw new ArgumentNullException(nameof(phone));
+            ArgumentNullException.ThrowIfNull(phone);
 
             if (phone.EmployeeId != EmployeeId && EmployeeId != 0)
                 throw new InvalidOperationException("Phone does not belong to this employee.");
@@ -121,8 +120,7 @@ namespace MoutsTI.Domain.Entities
 
         public void RemovePhone(EmployeePhoneModel phone)
         {
-            if (phone == null)
-                throw new ArgumentNullException(nameof(phone));
+            ArgumentNullException.ThrowIfNull(phone);
 
             _phones.Remove(phone);
         }

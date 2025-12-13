@@ -19,8 +19,7 @@ namespace MoutsTI.Infra.Repositories
 
         public long Add(IEmployeeModel employee)
         {
-            if (employee == null)
-                throw new ArgumentNullException(nameof(employee));
+            ArgumentNullException.ThrowIfNull(employee);
 
             var entity = _mapper.Map<Employee>(employee);
 
@@ -68,8 +67,7 @@ namespace MoutsTI.Infra.Repositories
 
         public void Update(IEmployeeModel employee)
         {
-            if (employee == null)
-                throw new ArgumentNullException(nameof(employee));
+            ArgumentNullException.ThrowIfNull(employee);
 
             var existingEntity = _context.Employees
                 .Include(e => e.EmployeePhones)
