@@ -13,7 +13,14 @@ namespace MoutsTI.Infra.Mapping.Profiles
             CreateMap<IEmployeePhoneModel, EmployeePhone>()
                 .ForMember(dest => dest.Employee, opt => opt.Ignore());
 
-            // EmployeePhone -> EmployeePhoneModel (usando factory method Load)
+            // EmployeePhone -> IEmployeePhoneModel (usando factory method Load)
+            CreateMap<EmployeePhone, IEmployeePhoneModel>()
+                .ConstructUsing(src => EmployeePhoneModel.Load(
+                    src.PhoneId,
+                    src.EmployeeId,
+                    src.Phone));
+
+            // EmployeePhone -> EmployeePhoneModel (mapeamento direto para a classe concreta)
             CreateMap<EmployeePhone, EmployeePhoneModel>()
                 .ConstructUsing(src => EmployeePhoneModel.Load(
                     src.PhoneId,

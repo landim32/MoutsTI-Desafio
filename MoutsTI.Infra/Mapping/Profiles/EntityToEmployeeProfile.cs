@@ -11,6 +11,9 @@ namespace MoutsTI.Infra.Mapping.Profiles
         {
             CreateMap<Employee, IEmployeeModel>()
                 .ConstructUsing(src => CreateEmployeeModel(src))
+                .ForMember(dest => dest.Role, opt => opt.Ignore())
+                .ForMember(dest => dest.Manager, opt => opt.Ignore())
+                .ForMember(dest => dest.Phones, opt => opt.Ignore())
                 .AfterMap((src, dest, context) =>
                 {
                     MapEmployeeRelations(src, dest, context);
@@ -54,7 +57,7 @@ namespace MoutsTI.Infra.Mapping.Profiles
                 return;
             }
 
-            var role = context.Mapper.Map<EmployeeRoleModel>(src.Role);
+            var role = context.Mapper.Map<IEmployeeRoleModel>(src.Role);
             typeof(EmployeeModel).GetProperty("Role")!
                 .SetValue(employeeModel, role);
         }
@@ -66,7 +69,7 @@ namespace MoutsTI.Infra.Mapping.Profiles
                 return;
             }
 
-            var manager = context.Mapper.Map<EmployeeModel>(src.Manager);
+            var manager = context.Mapper.Map<IEmployeeModel>(src.Manager);
             typeof(EmployeeModel).GetProperty("Manager")!
                 .SetValue(employeeModel, manager);
         }
