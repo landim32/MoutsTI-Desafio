@@ -14,8 +14,8 @@
         long? ManagerId { get; }
 
         // Navigation properties
-        IEmployeeRoleModel Role { get; }
-        IEmployeeModel Manager { get; }
+        IEmployeeRoleModel? Role { get; }
+        IEmployeeModel? Manager { get; }
         IReadOnlyCollection<IEmployeePhoneModel> Phones { get; }
 
         // Update methods

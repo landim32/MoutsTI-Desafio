@@ -17,7 +17,7 @@ namespace MoutsTI.Infra.Mapping.Profiles
                 });
         }
 
-        private static IEmployeeModel CreateEmployeeModel(Employee src)
+        private static EmployeeModel CreateEmployeeModel(Employee src)
         {
             var parameters = new EmployeeModel.EmployeeModelParameters
             {
@@ -73,7 +73,7 @@ namespace MoutsTI.Infra.Mapping.Profiles
 
         private static void MapPhones(Employee src, EmployeeModel employeeModel, ResolutionContext context)
         {
-            if (src.EmployeePhones == null || !src.EmployeePhones.Any())
+            if (src.EmployeePhones == null || src.EmployeePhones.Count == 0)
             {
                 return;
             }

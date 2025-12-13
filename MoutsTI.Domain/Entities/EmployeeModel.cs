@@ -23,8 +23,8 @@ namespace MoutsTI.Domain.Entities
         IEmployeeModel? IEmployeeModel.Manager => Manager;
         IReadOnlyCollection<IEmployeePhoneModel> IEmployeeModel.Phones => Phones;
 
-        public EmployeeRoleModel? Role { get; }
-        public EmployeeModel? Manager { get; }
+        public IEmployeeRoleModel? Role { get; }
+        public IEmployeeModel? Manager { get; }
         public IReadOnlyCollection<EmployeePhoneModel> Phones => _phones.AsReadOnly();
 
         // Factory method para criar um novo funcionário

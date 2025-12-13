@@ -42,12 +42,15 @@ namespace MoutsTI.Tests.Domain.Services
         public void Constructor_WithNullRepository_ShouldThrowArgumentNullException()
         {
             // Act
-            Action act = () => new EmployeeService(
-                null!,
-                _mockRoleRepository.Object,
-                _mockMapper.Object,
-                _mockAuthService.Object,
-                _mockLogger.Object);
+            Action act = () =>
+            {
+                var unused = new EmployeeService(
+                    null!,
+                    _mockRoleRepository.Object,
+                    _mockMapper.Object,
+                    _mockAuthService.Object,
+                    _mockLogger.Object);
+            };
 
             // Assert
             act.Should().Throw<ArgumentNullException>()
@@ -58,12 +61,16 @@ namespace MoutsTI.Tests.Domain.Services
         public void Constructor_WithNullRoleRepository_ShouldThrowArgumentNullException()
         {
             // Act
-            Action act = () => new EmployeeService(
-                _mockRepository.Object,
-                null!,
-                _mockMapper.Object,
-                _mockAuthService.Object,
-                _mockLogger.Object);
+            Action act = () =>
+            {
+                var unused = new EmployeeService(
+                    _mockRepository.Object,
+                    null!,
+                    _mockMapper.Object,
+                    _mockAuthService.Object,
+                    _mockLogger.Object);
+                GC.KeepAlive(unused);
+            };
 
             // Assert
             act.Should().Throw<ArgumentNullException>()
@@ -74,12 +81,16 @@ namespace MoutsTI.Tests.Domain.Services
         public void Constructor_WithNullMapper_ShouldThrowArgumentNullException()
         {
             // Act
-            Action act = () => new EmployeeService(
-                _mockRepository.Object,
-                _mockRoleRepository.Object,
-                null!,
-                _mockAuthService.Object,
-                _mockLogger.Object);
+            Action act = () =>
+            {
+                var unused = new EmployeeService(
+                    _mockRepository.Object,
+                    _mockRoleRepository.Object,
+                    null!,
+                    _mockAuthService.Object,
+                    _mockLogger.Object);
+                GC.KeepAlive(unused);
+            };
 
             // Assert
             act.Should().Throw<ArgumentNullException>()
@@ -90,12 +101,16 @@ namespace MoutsTI.Tests.Domain.Services
         public void Constructor_WithNullAuthService_ShouldThrowArgumentNullException()
         {
             // Act
-            Action act = () => new EmployeeService(
-                _mockRepository.Object,
-                _mockRoleRepository.Object,
-                _mockMapper.Object,
-                null!,
-                _mockLogger.Object);
+            Action act = () =>
+            {
+                var unused = new EmployeeService(
+                    _mockRepository.Object,
+                    _mockRoleRepository.Object,
+                    _mockMapper.Object,
+                    null!,
+                    _mockLogger.Object);
+                GC.KeepAlive(unused);
+            };
 
             // Assert
             act.Should().Throw<ArgumentNullException>()
@@ -240,7 +255,7 @@ namespace MoutsTI.Tests.Domain.Services
 
             // Assert
             act.Should().Throw<UnauthorizedAccessException>()
-                .WithMessage("*do not have permission*");
+                .WithMessage("*Unauthorized*");
         }
 
         [Fact]
@@ -1177,8 +1192,7 @@ namespace MoutsTI.Tests.Domain.Services
             Action act = () => _service.Add(employee, currentEmployee);
 
             // Assert
-            act.Should().Throw<UnauthorizedAccessException>()
-                .WithMessage("*do not have permission*");
+            act.Should().Throw<UnauthorizedAccessException>();
         }
 
         [Fact]

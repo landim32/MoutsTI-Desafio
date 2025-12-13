@@ -64,7 +64,8 @@ namespace MoutsTI.Domain.Services
             {
                 _logger.LogWarning(ex, "Unauthorized attempt to add employee with RoleId: {RoleId} by employee: {CurrentEmployeeId}", 
                     employee.RoleId, currentEmployee.EmployeeId);
-                throw;
+                throw new UnauthorizedAccessException(
+                    $"Unauthorized attempt to add employee with RoleId: {employee.RoleId} by employee: {currentEmployee.EmployeeId}", ex);
             }
             catch (ArgumentException ex)
             {
@@ -128,7 +129,7 @@ namespace MoutsTI.Domain.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error getting employee by ID: {EmployeeId}", employeeId);
-                throw new Exception($"Error getting employee by ID: employeeId", ex);
+                throw new InvalidOperationException($"Error getting employee by ID: employeeId", ex);
             }
         }
 
@@ -153,11 +154,8 @@ namespace MoutsTI.Domain.Services
 
         public void Update(EmployeeDto employee, EmployeeDto currentEmployee)
         {
-            if (employee == null)
-                throw new ArgumentNullException(nameof(employee));
-
-            if (currentEmployee == null)
-                throw new ArgumentNullException(nameof(currentEmployee));
+            ArgumentNullException.ThrowIfNull(employee);
+            ArgumentNullException.ThrowIfNull(currentEmployee);
 
             if (employee.EmployeeId <= 0)
                 throw new ArgumentException("Employee ID must be greater than zero.", nameof(employee));
@@ -200,12 +198,13 @@ namespace MoutsTI.Domain.Services
             {
                 _logger.LogWarning(ex, "Unauthorized attempt to update employee: {EmployeeId} by employee: {CurrentEmployeeId}", 
                     employee.EmployeeId, currentEmployee.EmployeeId);
-                throw;
+                throw new UnauthorizedAccessException(
+                    $"Unauthorized attempt to update employee: {employee.EmployeeId} by employee: {currentEmployee.EmployeeId}, {ex.Message}", ex);
             }
             catch (InvalidOperationException ex)
             {
                 _logger.LogError(ex, "Error updating employee: {EmployeeId}", employee.EmployeeId);
-                throw;
+                throw new InvalidOperationException($"Error updating employee: {employee.EmployeeId}, {ex.Message}", ex);
             }
             catch (ArgumentException ex)
             {
@@ -267,8 +266,8 @@ namespace MoutsTI.Domain.Services
             }
             catch (Exception ex) when (ex is not UnauthorizedAccessException)
             {
-                _logger.LogError(ex, "Error validating role hierarchy");
-                throw;
+                _logger.LogError(ex, "Error validating role hierarchy. TargetRoleId: {TargetRoleId}, CurrentEmployeeRoleId: {CurrentRoleId}", targetRoleId, currentEmployee.RoleId);
+                throw new InvalidOperationException($"Error validating role hierarchy for TargetRoleId: {targetRoleId}, CurrentEmployeeRoleId: {currentEmployee.RoleId}, {ex.Message}", ex);
             }
         }
     }

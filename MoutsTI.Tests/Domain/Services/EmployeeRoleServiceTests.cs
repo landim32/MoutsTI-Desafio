@@ -32,7 +32,7 @@ namespace MoutsTI.Tests.Domain.Services
         public void Constructor_WithNullRepository_ShouldThrowArgumentNullException()
         {
             // Arrange & Act
-            Action act = () => new EmployeeRoleService(null!, _mockMapper.Object, _mockLogger.Object);
+            Action act = () => { var _ = new EmployeeRoleService(null!, _mockMapper.Object, _mockLogger.Object); };
 
             // Assert
             act.Should().Throw<ArgumentNullException>()
@@ -43,7 +43,7 @@ namespace MoutsTI.Tests.Domain.Services
         public void Constructor_WithNullMapper_ShouldThrowArgumentNullException()
         {
             // Arrange & Act
-            Action act = () => new EmployeeRoleService(_mockRepository.Object, null!, _mockLogger.Object);
+            Action act = () => { var _ = new EmployeeRoleService(_mockRepository.Object, null!, _mockLogger.Object); };
 
             // Assert
             act.Should().Throw<ArgumentNullException>()

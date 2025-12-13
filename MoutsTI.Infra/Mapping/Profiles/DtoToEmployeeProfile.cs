@@ -20,7 +20,7 @@ namespace MoutsTI.Infra.Mapping.Profiles
                 });
         }
 
-        private static IEmployeeModel CreateEmployeeModel(EmployeeDto src)
+        private static EmployeeModel CreateEmployeeModel(EmployeeDto src)
         {
             var parameters = new EmployeeModel.EmployeeModelParameters
             {
@@ -42,7 +42,7 @@ namespace MoutsTI.Infra.Mapping.Profiles
 
         private static void MapPhonesToEmployee(EmployeeDto src, IEmployeeModel dest)
         {
-            if (src.Phones == null || !src.Phones.Any())
+            if (src.Phones == null || src.Phones.Count == 0)
             {
                 return;
             }
