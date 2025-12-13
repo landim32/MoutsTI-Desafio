@@ -10,17 +10,17 @@ namespace MoutsTI.Infra.Mapping.Profiles
         public EntityToEmployeeProfile()
         {
             CreateMap<Employee, IEmployeeModel>()
-                .ConstructUsing(src => CreateEmployeeModel(src))
+                .ConstructUsing((src, context) => CreateEmployeeModel(src, context))
                 .ForMember(dest => dest.Role, opt => opt.Ignore())
                 .ForMember(dest => dest.Manager, opt => opt.Ignore())
                 .ForMember(dest => dest.Phones, opt => opt.Ignore())
                 .AfterMap((src, dest, context) =>
                 {
-                    MapEmployeeRelations(src, dest, context);
+                    MapEmployeePhones(src, dest, context);
                 });
         }
 
-        private static EmployeeModel CreateEmployeeModel(Employee src)
+        private static EmployeeModel CreateEmployeeModel(Employee src, ResolutionContext context)
         {
             var parameters = new EmployeeModel.EmployeeModelParameters
             {
@@ -32,50 +32,21 @@ namespace MoutsTI.Infra.Mapping.Profiles
                 Password = src.Password,
                 Birthday = src.Birthday,
                 RoleId = src.RoleId,
-                ManagerId = src.ManagerId
+                ManagerId = src.ManagerId,
+                Role = src.Role != null ? context.Mapper.Map<EmployeeRoleModel>(src.Role) : null,
+                Manager = src.Manager != null ? CreateEmployeeModel(src.Manager, context) : null
             };
 
             return EmployeeModel.Load(parameters);
         }
 
-        private static void MapEmployeeRelations(Employee src, IEmployeeModel dest, ResolutionContext context)
+        private static void MapEmployeePhones(Employee src, IEmployeeModel dest, ResolutionContext context)
         {
             if (dest is not EmployeeModel employeeModel)
             {
                 return;
             }
 
-            MapRole(src, employeeModel, context);
-            MapManager(src, employeeModel, context);
-            MapPhones(src, employeeModel, context);
-        }
-
-        private static void MapRole(Employee src, EmployeeModel employeeModel, ResolutionContext context)
-        {
-            if (src.Role == null)
-            {
-                return;
-            }
-
-            var role = context.Mapper.Map<IEmployeeRoleModel>(src.Role);
-            typeof(EmployeeModel).GetProperty("Role")!
-                .SetValue(employeeModel, role);
-        }
-
-        private static void MapManager(Employee src, EmployeeModel employeeModel, ResolutionContext context)
-        {
-            if (src.Manager == null)
-            {
-                return;
-            }
-
-            var manager = context.Mapper.Map<IEmployeeModel>(src.Manager);
-            typeof(EmployeeModel).GetProperty("Manager")!
-                .SetValue(employeeModel, manager);
-        }
-
-        private static void MapPhones(Employee src, EmployeeModel employeeModel, ResolutionContext context)
-        {
             if (src.EmployeePhones == null || src.EmployeePhones.Count == 0)
             {
                 return;

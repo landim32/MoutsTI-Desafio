@@ -242,15 +242,9 @@ namespace MoutsTI.API.Controllers
             try
             {
                 // Extrai as claims do token JWT
-                var employeeIdClaim = User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value;
-                var emailClaim = User.FindFirst(JwtRegisteredClaimNames.Email)?.Value;
-                var firstNameClaim = User.FindFirst(JwtRegisteredClaimNames.GivenName)?.Value;
-                var lastNameClaim = User.FindFirst(JwtRegisteredClaimNames.FamilyName)?.Value;
-                var roleIdClaim = User.FindFirst("RoleId")?.Value;
+                var employeeIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-                if (string.IsNullOrEmpty(employeeIdClaim) || 
-                    string.IsNullOrEmpty(emailClaim) || 
-                    string.IsNullOrEmpty(roleIdClaim))
+                if (string.IsNullOrEmpty(employeeIdClaim))
                 {
                     return null;
                 }

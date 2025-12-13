@@ -68,9 +68,12 @@ const employeeSchema = z.object({
   roleId: z.number().min(1, 'Cargo é obrigatório'),
   managerId: z.number().optional(),
   phones: z.array(phoneSchema),
-  password: z.string().min(6, 'Senha deve ter no mínimo 6 caracteres'),
-  confirmPassword: z.string().min(1, 'Confirmação de senha é obrigatória')
-}).refine((data) => data.password === data.confirmPassword, {
+  password: z.string().optional().refine((val) => !val || val.length >= 6, 'Senha deve ter no mínimo 6 caracteres'),
+  confirmPassword: z.string().optional()
+}).refine((data) => {
+  if (!data.password && !data.confirmPassword) return true;
+  return data.password === data.confirmPassword;
+}, {
   message: 'As senhas não coincidem',
   path: ['confirmPassword'],
 });
@@ -172,7 +175,7 @@ export default function EmployeeForm() {
         roleId: data.roleId,
         managerId: data.managerId || undefined,
         phones: data.phones.map(phone => phone.number),
-        password: data.password,
+        ...(data.password && { password: data.password }),
       };
 
       if (isEditing) {
@@ -312,12 +315,12 @@ export default function EmployeeForm() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password">Senha *</Label>
+              <Label htmlFor="password">Senha</Label>
               <Input
                 id="password"
                 type="password"
                 {...register('password')}
-                placeholder="Mínimo 6 caracteres"
+                placeholder="Mínimo 6 caracteres (opcional)"
                 className={errors.password ? 'border-destructive' : ''}
               />
               {errors.password && (
@@ -326,12 +329,12 @@ export default function EmployeeForm() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="confirmPassword">Confirmar Senha *</Label>
+              <Label htmlFor="confirmPassword">Confirmar Senha</Label>
               <Input
                 id="confirmPassword"
                 type="password"
                 {...register('confirmPassword')}
-                placeholder="Repita a senha"
+                placeholder="Repita a senha (opcional)"
                 className={errors.confirmPassword ? 'border-destructive' : ''}
               />
               {errors.confirmPassword && (

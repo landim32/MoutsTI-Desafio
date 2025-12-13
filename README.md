@@ -8,6 +8,139 @@
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=landim32_MoutsTI-Desafio&metric=code_smells)](https://sonarcloud.io/project/overview?id=landim32_MoutsTI-Desafio)
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=landim32_MoutsTI-Desafio&metric=vulnerabilities)](https://sonarcloud.io/project/overview?id=landim32_MoutsTI-Desafio)
 
+## 🚀 Quick Start com Docker
+
+### Pré-requisitos
+
+- Docker
+- Docker Compose
+
+### Estrutura dos Serviços
+
+- **api**: Aplicação .NET 8 Web API
+- **frontend**: Aplicação React com Vite e shadcn/ui
+- **postgres**: Banco de dados PostgreSQL 15
+
+### Configuração Inicial
+
+1. **Clone o repositório:**
+```bash
+git clone https://github.com/landim32/MoutsTI-Desafio.git
+cd MoutsTI-Desafio
+```
+
+2. **Configure as variáveis de ambiente:**
+
+Renomeie o arquivo `.env.example` para `.env`:
+
+```bash
+# No Windows (PowerShell)
+Copy-Item .env.example .env 
+
+# No Linux/Mac
+cp .env.example .env
+```
+
+O arquivo `.env` já está configurado com as credenciais necessárias. **IMPORTANTE:** Mantenha a `JWT_SECRET_KEY` como está para que as senhas funcionem corretamente:
+
+```env
+JWT_SECRET_KEY=7K9mP2vN8xQ4wE6rT1yU3iO5pA7sD9fG2hJ4kL6zX8cV0bN3mQ5wE7rT9yU1iO3pA
+```
+
+3. **Inicie os containers:**
+```bash
+docker-compose up -d
+```
+
+### 🔐 Credenciais de Primeiro Acesso
+
+Após iniciar os containers, acesse o sistema com as seguintes credenciais:
+
+**Email:** `rodrigo@emagine.com.br`  
+**Senha:** `teste123`
+
+### Acesso aos Serviços
+
+- **Frontend**: http://localhost:3000
+- **API**: http://localhost:5000
+- **Swagger**: http://localhost:5000/swagger
+- **PostgreSQL**: localhost:5432
+
+### Modo Desenvolvimento
+
+Para executar com hot-reload no frontend:
+
+```bash
+docker-compose -f docker-compose.yml up -d
+```
+
+Acesse:
+- **Frontend (dev)**: http://localhost:3000
+- **API**: http://localhost:5000
+- **PostgreSQL**: localhost:5432
+
+### Comandos Úteis
+
+#### Ver logs dos serviços
+```bash
+# Todos os serviços
+docker-compose logs -f
+
+# Apenas API
+docker-compose logs -f api
+
+# Apenas Frontend
+docker-compose logs -f frontend
+
+# Apenas PostgreSQL
+docker-compose logs -f postgres
+```
+
+#### Parar os serviços
+```bash
+docker-compose down
+```
+
+#### Parar e remover volumes (ATENÇÃO: apaga o banco de dados)
+```bash
+docker-compose down -v
+```
+
+#### Reconstruir imagens
+```bash
+docker-compose build
+```
+
+#### Reconstruir e executar
+```bash
+docker-compose up -d --build
+```
+
+### Volumes e Network
+
+- **postgres-data**: Persiste os dados do PostgreSQL
+- **moutsti-network**: Rede interna para comunicação entre serviços
+
+### Troubleshooting
+
+#### Porta já em uso
+Se alguma porta estiver em uso, edite os mapeamentos no `docker-compose.yml`.
+
+#### Problemas de permissão no volume do PostgreSQL
+```bash
+docker-compose down -v
+docker-compose up -d
+```
+
+#### Rebuild completo
+```bash
+docker-compose down -v
+docker-compose build --no-cache
+docker-compose up -d
+```
+
+---
+
 ## 📋 Sobre o Projeto
 
 Sistema completo de gerenciamento de funcionários desenvolvido como solução para teste técnico. O projeto implementa um CRUD completo com autenticação, relacionamentos hierárquicos entre funcionários e gestores, validações robustas e interface moderna em React.
@@ -381,7 +514,7 @@ reportgenerator -reports:"**/coverage.cobertura.xml" -targetdir:"coveragereport"
 
 ### Authentication
 - `POST /api/auth/login` - Autenticação de usuário
-  - Request: `{ "email": "user@example.com", "password": "senha" }`
+  - Request: `{ "email": "rodrigo@emagine.com.br", "password": "teste123" }`
   - Response: `{ "token": "JWT_TOKEN", "employee": { ... } }`
 
 ### Employees
