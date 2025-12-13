@@ -28,7 +28,7 @@ namespace MoutsTI.Tests.Infra.Repositories
         public void Constructor_WithNullContext_ShouldThrowArgumentNullException()
         {   
             // Arrange & Act
-            Action act = () => new EmployeeRoleRepository(null!, _mockMapper.Object);
+            Action act = () => { var unused = new EmployeeRoleRepository(null!, _mockMapper.Object); };
 
             // Assert
             act.Should().Throw<ArgumentNullException>()
@@ -39,7 +39,7 @@ namespace MoutsTI.Tests.Infra.Repositories
         public void Constructor_WithNullMapper_ShouldThrowArgumentNullException()
         {
             // Arrange & Act
-            Action act = () => new EmployeeRoleRepository(_mockContext.Object, null!);
+            Action act = () => { var unused = new EmployeeRoleRepository(_mockContext.Object, null!); };
 
             // Assert
             act.Should().Throw<ArgumentNullException>()
@@ -409,7 +409,7 @@ namespace MoutsTI.Tests.Infra.Repositories
 
         #region Helper Methods
 
-        private Mock<Microsoft.EntityFrameworkCore.DbSet<T>> CreateMockDbSet<T>(List<T> data) where T : class
+        private static Mock<Microsoft.EntityFrameworkCore.DbSet<T>> CreateMockDbSet<T>(List<T> data) where T : class
         {
             var queryable = data.AsQueryable();
             var mockSet = new Mock<Microsoft.EntityFrameworkCore.DbSet<T>>();

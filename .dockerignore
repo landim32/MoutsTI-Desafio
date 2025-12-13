@@ -1,0 +1,68 @@
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Visual Studio
+.vs/
+.vscode/
+*.user
+*.suo
+*.userosscache
+
+# Build outputs
+**/[Bb]in/
+**/[Oo]bj/
+**/[Dd]ebug/
+**/[Rr]elease/
+**/out/
+**/TestResults/
+
+# Sensitive configuration files
+**/*appsettings.Development.json
+**/*appsettings.Local.json
+*.env
+*.env.*
+
+# Documentation and non-essential files
+*.md
+*.txt
+CHANGELOG*
+LICENSE
+*.sql
+
+# Tests
+**/*Tests/
+**/coverage/
+*.opencover.xml
+.scannerwork/
+.sonarqube/
+.sonar/
+
+# Node modules (frontend)
+**/node_modules/
+**/dist/
+**/.next/
+
+# Docker
+Dockerfile*
+docker-compose*
+.dockerignore
+
+# CI/CD
+.github/
+.gitlab-ci.yml
+azure-pipelines.yml
+
+# Logs
+*.log
+**/[Ll]ogs/
+
+# Database files
+*.mdf
+*.ldf
+*.ndf
+
+# Other
+.DS_Store
+Thumbs.db

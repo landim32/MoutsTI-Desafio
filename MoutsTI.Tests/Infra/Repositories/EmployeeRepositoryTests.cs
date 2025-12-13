@@ -29,7 +29,7 @@ namespace MoutsTI.Tests.Infra.Repositories
         public void Constructor_WithNullContext_ShouldThrowArgumentNullException()
         {
             // Arrange & Act
-            Action act = () => new EmployeeRepository(null!, _mockMapper.Object);
+            Action act = () => { var unused = new EmployeeRepository(null!, _mockMapper.Object); };
 
             // Assert
             act.Should().Throw<ArgumentNullException>()
@@ -40,7 +40,7 @@ namespace MoutsTI.Tests.Infra.Repositories
         public void Constructor_WithNullMapper_ShouldThrowArgumentNullException()
         {
             // Arrange & Act
-            Action act = () => new EmployeeRepository(_mockContext.Object, null!);
+            Action act = () => { var unused = new EmployeeRepository(_mockContext.Object, null!); };
 
             // Assert
             act.Should().Throw<ArgumentNullException>()
@@ -526,7 +526,7 @@ namespace MoutsTI.Tests.Infra.Repositories
             // Assert
             _mockMapper.Verify(m => m.Map<IEnumerable<IEmployeeModel>>(
                 It.Is<List<Employee>>(list => 
-                    list.Any(e => e.Role != null && e.Manager != null && e.EmployeePhones.Any()))), 
+                    list.Any(e => e.Role != null && e.Manager != null && e.EmployeePhones.Count != 0))), 
                 Times.Once);
         }
 
@@ -815,7 +815,7 @@ namespace MoutsTI.Tests.Infra.Repositories
 
         #region Helper Methods
 
-        private Mock<DbSet<T>> CreateMockDbSet<T>(List<T> data) where T : class
+        private static Mock<DbSet<T>> CreateMockDbSet<T>(List<T> data) where T : class
         {
             var queryable = data.AsQueryable();
             var mockSet = new Mock<DbSet<T>>();
